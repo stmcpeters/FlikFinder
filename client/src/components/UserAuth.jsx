@@ -7,13 +7,23 @@ export default function UserAuth() {
   return (
     <div className='user-auth'> 
       <h1>UserAuth Component</h1>
-      <form >
-        <label>Username: </label>
-          <input type="text" name="username" /> <br></br>
-        <label>Email: </label>
-          <input type="text" name="username" /><br></br>
-        <input type="submit" value="Sign in" disabled/>
-      </form>
+      <label>Sign In</label>
+        <form >
+          <label>Username: </label>
+            <input type="text" name="username" /> <br></br>
+          <label>Email: </label>
+            <input type="text" name="username" /><br></br>
+          <input type="submit" value="Sign In" disabled/>
+        </form>
+<br></br>
+      <label>Create New User</label>
+        <form >
+          <label>Username: </label>
+            <input type="text" name="username" /> <br></br>
+          <label>Email: </label>
+            <input type="text" name="username" /><br></br>
+          <input type="submit" value="Register" disabled/>
+        </form>
     </div>
 
   )

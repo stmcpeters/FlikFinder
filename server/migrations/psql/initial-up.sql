@@ -53,8 +53,8 @@ INSERT INTO public.genres (genre_id, genre_name) VALUES
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: beigeh0ney
 --
 
-INSERT INTO public.users (id, username, email) VALUES
-(1,	'steph','steph@gmail.com');
+INSERT INTO public.users (username, email) VALUES
+('steph','steph@gmail.com');
 
 
 --

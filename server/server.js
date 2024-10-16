@@ -14,13 +14,23 @@ app.get('/', (req, res) => {
   res.json('hi from your server :D');
 });
 
-// testing database connection - fetching genres table
+// fetching all genres from genres table
 app.get('/db/genres', async (req, res) => {
   try {
     const { rows: genres } = await db.query('SELECT * FROM genres');
     res.send(genres);
   } catch (error){
     console.error('Error fetching from genres table: ', error);
+  }
+})
+
+// fetches all users from user table
+app.get('/db/users', async (req, res) => {
+  try {
+    const { rows : users } = await db.query('SELECT * FROM users');
+    res.send(users);
+  } catch (error) {
+    console.error('Error fetching users from users table: ', error);
   }
 })
 

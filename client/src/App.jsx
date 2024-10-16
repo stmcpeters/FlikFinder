@@ -10,7 +10,7 @@ function App() {
     <>
       <nav>
         <h1>Logo</h1>
-        <ul>
+        <ul className='nav-items'>
           <li><a href="#">Home</a></li>
           <li><a href="#">Login/Sign Up</a></li>
           <li>Signed in as: <a href="#">User</a></li>

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import UserAuth from './components/UserAuth.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,8 +16,9 @@ function App() {
           <li><a href="#">Login/Sign Up</a></li>
           <li>Signed in as: <a href="#">User</a></li>
         </ul>
-
       </nav>
+
+      <UserAuth />
     </>
   )
 }

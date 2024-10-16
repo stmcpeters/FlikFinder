@@ -6,7 +6,7 @@ import React from 'react'
 export default function UserAuth() {
   return (
     <div className='user-auth'> 
-      <h1>UserAuth Component</h1>
+      <h2>UserAuth</h2>
       <label>Sign In</label>
         <form >
           <label>Username: </label>

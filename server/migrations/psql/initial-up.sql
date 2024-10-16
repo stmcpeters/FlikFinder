@@ -24,38 +24,37 @@ CREATE TABLE public.users (
 -- Data for Name: genres; Type: TABLE DATA; Schema: public; Owner: beigeh0ney
 --
 
-COPY public.genres (genre_id, genre_name) FROM stdin;
-action	Action
-adventure	Adventure
-animation	Animation
-comedy	Comedy
-crime	Crime
-documentary	Documentary
-drama	Drama
-family	Family
-fantasy	Fantasy
-history	History
-horror	Horror
-music	Music
-mystery	Mystery
-news	News
-reality	Reality
-romance	Romance
-scifi	Science Fiction
-talk	Talk Show
-thriller	Thriller
-war	War
-western	Western
-\.
+INSERT INTO public.genres (genre_id, genre_name) VALUES
+('action','Action'),
+('adventure','Adventure'),
+('animation','Animation'),
+('comedy','Comedy'),
+('crime','Crime'),
+('documentary','Documentary'),
+('drama','Drama'),
+('family','Family'),
+('fantasy','Fantasy'),
+('history','History'),
+('horror','Horror'),
+('music','Music'),
+('mystery','Mystery'),
+('news','News'),
+('reality','Reality'),
+('romance','Romance'),
+('scifi', 'Science Fiction'),
+('talk','Talk Show'),
+('thriller'	,'Thriller'),
+('war','War'),
+('western','Western');
+
 
 
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: beigeh0ney
 --
 
-COPY public.users (id, username, email) FROM stdin;
-1	steph	steph@gmail.com
-\.
+INSERT INTO public.users (id, username, email) VALUES
+(1,	'steph','steph@gmail.com');
 
 
 --

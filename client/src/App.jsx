@@ -4,6 +4,8 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import UserAuth from './components/UserAuth.jsx'
 import SelectGenres from './components/SelectGenres.jsx'
+import MovieRec from './components/MovieRec.jsx'
+import MovieReview from './components/MovieReview.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -21,6 +23,8 @@ function App() {
 
       <UserAuth />
       <SelectGenres />
+      <MovieRec />
+      <MovieReview />
     </>
   )
 }

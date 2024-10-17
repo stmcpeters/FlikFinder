@@ -44,6 +44,22 @@ app.get('/db/reviews', async (req, res) => {
   }
 })
 
+// fetches popular/recent movies
+  app.get('/movies', async (req, res) => {
+    try {
+      const response = await fetch("https://streaming-availability.p.rapidapi.com/shows/search/filters?country=us&series_granularity=show&order_direction=desc&order_by=original_title&show_original_language=en&output_language=en",{
+        headers: {
+          'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com',
+          'X-RapidAPI-Key': process.env.RAPIDAPI_KEY
+        }
+    });
+      const data = await response.json();
+      res.send(data);
+    } catch (error) {
+      console.error('Error fetching movies from API: ', error);
+    }
+  })
+
 // server is listening on PORT
 app.listen(PORT, () => {
   console.log(`hi :D your server is on http://localhost:${PORT}`);

@@ -36,7 +36,13 @@ function App() {
   // fetches genres from database
   const loadGenres = async () => {
     try {
-      const response = fetch("http://localhost:5001/db/genres");
+      const response = await fetch("http://localhost:5001/db/genres");
+
+      //  error handling
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
       setGenres(data);
     } catch (error) {
@@ -52,7 +58,7 @@ function App() {
   // fetches reviews from database
   const loadReviews = async () => {
     try {
-      const response = fetch("http://localhost:5001/db/reviews");
+      const response = await fetch("http://localhost:5001/db/reviews");
       const data = await response.json();
       setReviews(data);
     } catch (error) {
@@ -71,7 +77,8 @@ function App() {
     <>
       <NavBar />
       <UserAuth />
-      <SelectGenres genres={genres} />
+      {/* was going to send genres prop but hardcoded data instead */}
+      <SelectGenres />
       <MovieRec />
       <MovieReview reviews={reviews} />
     </>

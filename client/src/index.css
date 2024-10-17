@@ -67,28 +67,7 @@ button:focus-visible {
   }
 } */
 
-/* displays nav links inline */
-nav li {
-  display: inline-block;
-  margin-left: 5px;
-  margin-right: 5px;
-  list-style: none;
-  border: 1px solid black;
-  padding: 5px;
-}
 
-/* displays nav links to the right of page */
-.nav-items {
-  float: right;
-  top: -100px;
-  margin-left: 450px;
-  display: flex;
-}
-
-/* border under navbar to show separation (need to put items inline) */
-nav {
-  border-bottom: 2px solid blue;
-}
 
 /* applies background color to user authentication component for visibility */
 .user-auth {

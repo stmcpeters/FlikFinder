@@ -2,10 +2,15 @@
 // userReviews() => fetches all user reviews for specific movie using its movieID
 import React from 'react'
 
-export default function MovieReview() {
+export default function MovieReview({ reviews }) {
   return (
     <>
       <h2>Movie Review</h2>
+      <ul>
+        {reviews.map((review) => {
+          return <li key={review.id}>{review.review_body}</li>
+        })}
+      </ul>
     </>
   )
 }

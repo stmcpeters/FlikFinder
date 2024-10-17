@@ -34,6 +34,16 @@ app.get('/db/users', async (req, res) => {
   }
 })
 
+// fetches all reviews from reviews table
+app.get('/db/reviews', async (req, res) => {
+  try {
+    const { rows: reviews } = await db.query('SELECT * FROM reviews');
+    res.send(reviews);
+  } catch (error) {
+    console.error('Error fetching reviews from the reviews table: ', error);
+  }
+})
+
 // server is listening on PORT
 app.listen(PORT, () => {
   console.log(`hi :D your server is on http://localhost:${PORT}`);

@@ -12,7 +12,7 @@ export default function NavBar() {
           <Nav className="me-auto">
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">About Us</Nav.Link>
+            <Nav.Link href="#user-profile">User Profile</Nav.Link>
           </Nav>
           <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>

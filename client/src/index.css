@@ -74,3 +74,16 @@ button:focus-visible {
   background-color: lightgoldenrodyellow;
   width: 300px;
 }
+/* applies background color to movie recommendation component for visibility */
+.movie-rec {
+  background-color: lightpink;
+}
+/* applies background color to movie review component for visibility */
+.movie-review {
+  background-color: lightblue;
+}
+/* applies background color to genre selection component for visibility */
+.select-genre {
+  background-color: lightcyan;
+  width: 300px;
+}

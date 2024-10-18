@@ -32,9 +32,9 @@ export default function SelectGenres() {
 
 
   return (
-    <>
+    <div className="select-genre">
       <h2>Select Genres</h2>
       <Select options={options} isMulti/>
-    </>
+    </div>
   )
 }

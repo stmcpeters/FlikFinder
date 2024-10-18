@@ -15,13 +15,13 @@ export default function MovieRec({ movies }) {
   console.log('Movies: ', movies);
 
   return (
-    <>
+    <div className="movie-rec">
       <h2>Movie Rec</h2>
-      <ul>
+      {/* <ul>
         {movies.map((movie) => {
           return <li key={movie.id}>{movie.shows[0].title}</li>
         })}
-      </ul>
-    </>
+      </ul> */}
+    </div>
   )
 }

@@ -44,6 +44,16 @@ app.get('/db/reviews', async (req, res) => {
   }
 })
 
+// fetches user-genres joined table
+app.get('/db/joined', async (req, res) => {
+  try {
+    const { rows: userGenres } = await db.query('SELECT * FROM user_genres');
+    res.send(userGenres);
+  } catch (error) {
+    console.error('Error fetching from user-genre table: ', error);
+  }
+})
+
 // fetches popular/recent movies
   app.get('/movies', async (req, res) => {
     try {
@@ -59,6 +69,7 @@ app.get('/db/reviews', async (req, res) => {
       console.error('Error fetching movies from API: ', error);
     }
   })
+
 
 // server is listening on PORT
 app.listen(PORT, () => {

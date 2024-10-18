@@ -12,16 +12,14 @@ export default function MovieRec({ movies }) {
 
   const randomMovie = selectRandomMovie(movies);
 
-  console.log('Movies: ', movies);
+  //console.log('Movies: ', movies);
 
   return (
     <div className="movie-rec">
       <h2>Movie Rec</h2>
-      <ul>
-        {movies.map((movie) => {
-          return <li key={movie.id}>{movie.shows[0].title}</li>
-        })}
-      </ul>
+      {/* doesn't load on page render but once rendered commented out section displays movie details of a random movie */}
+      {/* <h3>{randomMovie.title} ({randomMovie.releaseYear})</h3>
+      <p>{randomMovie.overview}</p> */}
     </div>
   )
 }

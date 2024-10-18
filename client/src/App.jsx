@@ -15,6 +15,8 @@ function App() {
   const [genres, setGenres] = useState([]);
   // initialize and update reviews state
   const [reviews, setReviews] = useState([]);
+  // initialize and update movies state
+  const [movies, setMovies] = useState([]);
 
   // fetching users from database
   const loadUsers = async () => {
@@ -59,6 +61,7 @@ function App() {
   const loadReviews = async () => {
     try {
       const response = await fetch("http://localhost:5001/db/reviews");
+      // console.log(response);
       const data = await response.json();
       setReviews(data);
     } catch (error) {
@@ -71,7 +74,26 @@ function App() {
       loadReviews();
     }, []);
 
+  // fetches recent/popular movies from API
+  const loadMovies = async () => {
+    try {
+      const response = await fetch("http://localhost:5001/movies");
+      // console.log(response);
+      const data = await response.json();
+      setMovies(data);
+    } catch (error) {
+      console.error('Error fetching movies: ', error);
+    }
+  }
 
+    // fetches movies from API on page render
+    useEffect(() => {
+      loadMovies();
+    }, []);
+
+// console.log(reviews);
+// console.log(movies);
+// console.log(users);
 
   return (
     <>
@@ -79,7 +101,7 @@ function App() {
       <UserAuth />
       {/* was going to send genres prop but hardcoded data instead */}
       <SelectGenres />
-      <MovieRec />
+      <MovieRec movies={movies} />
       <MovieReview reviews={reviews} />
     </>
   )

@@ -3,11 +3,25 @@
 //  displayMovie(movie) => renders the recommended movie’s data to the screen
 import React from 'react'
 
-export default function MovieRec() {
+export default function MovieRec({ movies }) {
+
+  // const selectRandomMovie = (movies) => {
+  //   const randomIndex = Math.floor(Math.random() * movies.length);
+  //   return movies[randomIndex];
+  // }
+
+  // const randomMovie = selectRandomMovie(movies);
+
+  console.log('Movies: ', movies);
+
   return (
     <>
       <h2>Movie Rec</h2>
-
+      <ul>
+        {movies.map((movie) => {
+          return <li key={movie.id}>{movie.shows[0].title}</li>
+        })}
+      </ul>
     </>
   )
 }

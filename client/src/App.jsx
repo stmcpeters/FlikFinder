@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NavBar from './components/NavBar.jsx'
-import UserAuth from './components/UserAuth.jsx'
-import SelectGenres from './components/SelectGenres.jsx'
-import MovieRec from './components/MovieRec.jsx'
-import MovieReview from './components/MovieReview.jsx'
+// import NavBar from './components/NavBar.jsx'
+// import UserAuth from './components/UserAuth.jsx'
+// import SelectGenres from './components/SelectGenres.jsx'
+// import MovieRec from './components/MovieRec.jsx'
+// import MovieReview from './components/MovieReview.jsx'
+
+import Home from './pages/Home.jsx'
+import Auth from './pages/Auth.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -96,14 +100,24 @@ function App() {
 // console.log(users);
 
   return (
-    <>
-      <NavBar />
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Auth />} />
+          <Route path="/" element={<Auth />} />
+          <Route path="/home" element={<Home movies={movies} reviews={reviews} />} />
+        </Routes>
+      </BrowserRouter>
+
+
+
+      {/* <NavBar />
       <UserAuth />
       {/* was going to send genres prop but hardcoded data instead */}
-      <SelectGenres />
+      {/* <SelectGenres />
       <MovieRec movies={movies} />
-      <MovieReview reviews={reviews} />
-    </>
+      <MovieReview reviews={reviews} /> */} 
+    </div>
   )
 }
 

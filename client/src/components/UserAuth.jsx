@@ -39,7 +39,7 @@ export default function UserAuth() {
       <h2>UserAuth</h2>
       <label>Sign In</label>
         <form onSubmit={handleLoginSubmit}>
-          <label>Username: </label>
+          <label for="username">Username: </label>
             <input 
               type="text" 
               name="username" 
@@ -47,7 +47,7 @@ export default function UserAuth() {
               value={loginData.username}
               onChange={handleLoginChange}
               /> <br></br>
-          <label>Email: </label>
+          <label for="email">Email: </label>
             <input 
               type="text" 
               name="email" 
@@ -65,7 +65,7 @@ export default function UserAuth() {
 
       <label>Create New User</label>
         <form onSubmit={handleRegisterSubmit}>
-          <label>Username: </label>
+          <label for="username">Username: </label>
             <input 
               type="text" 
               name="username" 
@@ -73,7 +73,7 @@ export default function UserAuth() {
               value={registerData.username}
               onChange={handleRegisterChange}
               /> <br></br>
-          <label>Email: </label>
+          <label for="email">Email: </label>
             <input 
               type="text" 
               name="email" 

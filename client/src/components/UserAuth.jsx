@@ -1,9 +1,10 @@
-// login() => will handle fetching user data from DB and set user state as logged in
-// register() => will handle creating new user in DB and set user state as logged in
-
 import React, { useState } from 'react'
 
 export default function UserAuth() {
+
+// login() => will handle fetching user data from DB and set user state as logged in
+// register() => will handle creating new user in DB and set user state as logged in
+
   // setting initial state of login data and state to update inputs
   const [loginData, setLoginData] = useState({
     username: '',
@@ -39,7 +40,7 @@ export default function UserAuth() {
       <h2>UserAuth</h2>
       <label>Sign In</label>
         <form onSubmit={handleLoginSubmit}>
-          <label>Username: </label>
+          <label htmlFor="username">Username: </label>
             <input 
               type="text" 
               name="username" 
@@ -47,7 +48,7 @@ export default function UserAuth() {
               value={loginData.username}
               onChange={handleLoginChange}
               /> <br></br>
-          <label>Email: </label>
+          <label htmlFor="email">Email: </label>
             <input 
               type="text" 
               name="email" 
@@ -65,7 +66,7 @@ export default function UserAuth() {
 
       <label>Create New User</label>
         <form onSubmit={handleRegisterSubmit}>
-          <label>Username: </label>
+          <label htmlFor="username">Username: </label>
             <input 
               type="text" 
               name="username" 
@@ -73,7 +74,7 @@ export default function UserAuth() {
               value={registerData.username}
               onChange={handleRegisterChange}
               /> <br></br>
-          <label>Email: </label>
+          <label htmlFor="email">Email: </label>
             <input 
               type="text" 
               name="email" 

@@ -70,6 +70,18 @@ ALTER SEQUENCE public.reviews_id_seq OWNED BY public.reviews.id;
 
 
 --
+-- Name: user_genres; Type: TABLE; Schema: public; Owner: beigeh0ney
+--
+
+CREATE TABLE public.user_genres (
+    user_id integer NOT NULL,
+    genre_id character varying NOT NULL
+);
+
+
+ALTER TABLE public.user_genres OWNER TO beigeh0ney;
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: beigeh0ney
 --
 
@@ -122,49 +134,51 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: genres; Type: TABLE DATA; Schema: public; Owner: beigeh0ney
 --
 
-COPY public.genres (genre_id, genre_name) FROM stdin;
-action  Action
-adventure       Adventure
-animation       Animation
-comedy  Comedy
-crime   Crime
-documentary     Documentary
-drama   Drama
-family  Family
-fantasy Fantasy
-history History
-horror  Horror
-music   Music
-mystery Mystery
-news    News
-reality Reality
-romance Romance
-scifi   Science Fiction
-talk    Talk Show
-thriller        Thriller
-war     War
-western Western
-\.
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('action', 'Action');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('adventure', 'Adventure');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('animation', 'Animation');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('comedy', 'Comedy');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('crime', 'Crime');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('documentary', 'Documentary');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('drama', 'Drama');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('family', 'Family');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('fantasy', 'Fantasy');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('history', 'History');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('horror', 'Horror');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('music', 'Music');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('mystery', 'Mystery');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('news', 'News');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('reality', 'Reality');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('romance', 'Romance');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('scifi', 'Science Fiction');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('talk', 'Talk Show');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('thriller', 'Thriller');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('war', 'War');
+INSERT INTO public.genres (genre_id, genre_name) VALUES ('western', 'Western');
 
 
 --
 -- Data for Name: reviews; Type: TABLE DATA; Schema: public; Owner: beigeh0ney
 --
 
-COPY public.reviews (id, user_id, movie_id, review_body, created_at) FROM stdin;
-1       2       56608   #Captured dives into the dark side of the human psyche, blending horror and thriller elements effectively. The film follows a group of friends who find themselves ensnared in a web of fear and paranoia after an ill-fated adventure. Lizze Gordon delivers a standout performance, capturing the raw emotion and terror of her character. While the plot has some predictable twists, the intense atmosphere and chilling cinematography keep viewers engaged. Fans of the genre may find it a worthwhile watch, especially for its tension and suspenseful moments.   2024-10-17 14:08:55.905999
-2       1       56608   Despite its intriguing premise, #Captured ultimately falls short of its potential. The film starts strong, setting up a gripping scenario that promises thrills and chills. However, as the story unfolds, the pacing drags, and character development is lacking. While some performances are commendable, particularly by Cody Renee Cameron, the script fails to deliver memorable dialogue or compelling motivations. Horror enthusiasts may appreciate a few jump scares, but overall, it feels like a missed opportunity to explore deeper themes of captivity and survival.        2024-10-17 14:10:08.834332
-\.
+INSERT INTO public.reviews (id, user_id, movie_id, review_body, created_at) VALUES (1, 2, '56608', '#Captured dives into the dark side of the human psyche, blending horror and thriller elements effectively. The film follows a group of friends who find themselves ensnared in a web of fear and paranoia after an ill-fated adventure. Lizze Gordon delivers a standout performance, capturing the raw emotion and terror of her character. While the plot has some predictable twists, the intense atmosphere and chilling cinematography keep viewers engaged. Fans of the genre may find it a worthwhile watch, especially for its tension and suspenseful moments.', '2024-10-17 14:08:55.905999');
+INSERT INTO public.reviews (id, user_id, movie_id, review_body, created_at) VALUES (2, 1, '56608', 'Despite its intriguing premise, #Captured ultimately falls short of its potential. The film starts strong, setting up a gripping scenario that promises thrills and chills. However, as the story unfolds, the pacing drags, and character development is lacking. While some performances are commendable, particularly by Cody Renee Cameron, the script fails to deliver memorable dialogue or compelling motivations. Horror enthusiasts may appreciate a few jump scares, but overall, it feels like a missed opportunity to explore deeper themes of captivity and survival.', '2024-10-17 14:10:08.834332');
+
+
+--
+-- Data for Name: user_genres; Type: TABLE DATA; Schema: public; Owner: beigeh0ney
+--
+
+INSERT INTO public.user_genres (user_id, genre_id) VALUES (1, 'horror');
+INSERT INTO public.user_genres (user_id, genre_id) VALUES (1, 'mystery');
 
 
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: beigeh0ney
 --
 
-COPY public.users (id, username, email) FROM stdin;
-1       steph   steph@gmail.com
-2       cinephile415    movies@gmail.com
-\.
+INSERT INTO public.users (id, username, email) VALUES (1, 'steph', 'steph@gmail.com');
+INSERT INTO public.users (id, username, email) VALUES (2, 'cinephile415', 'movies@gmail.com');
 
 
 --
@@ -206,6 +220,14 @@ ALTER TABLE ONLY public.reviews
 
 
 --
+-- Name: user_genres user_genres_pkey; Type: CONSTRAINT; Schema: public; Owner: beigeh0ney
+--
+
+ALTER TABLE ONLY public.user_genres
+    ADD CONSTRAINT user_genres_pkey PRIMARY KEY (user_id, genre_id);
+
+
+--
 -- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: beigeh0ney
 --
 
@@ -238,5 +260,22 @@ ALTER TABLE ONLY public.reviews
 
 
 --
+-- Name: user_genres user_genres_genre_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: beigeh0ney
+--
+
+ALTER TABLE ONLY public.user_genres
+    ADD CONSTRAINT user_genres_genre_id_fkey FOREIGN KEY (genre_id) REFERENCES public.genres(genre_id);
+
+
+--
+-- Name: user_genres user_genres_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: beigeh0ney
+--
+
+ALTER TABLE ONLY public.user_genres
+    ADD CONSTRAINT user_genres_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
+

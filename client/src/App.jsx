@@ -7,7 +7,8 @@ import Home from './pages/Home.jsx'
 import Auth from './pages/Auth.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // initializes and updates logged in state
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   // initialize and update users state
   const [users, setUsers] = useState([]);
   // initialize and update genres state
@@ -16,6 +17,16 @@ function App() {
   const [reviews, setReviews] = useState([]);
   // initialize and update movies state
   const [movies, setMovies] = useState([]);
+
+
+  // functions for user login/log out
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  }
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  }
 
   // fetching users from database
   const loadUsers = async () => {
@@ -98,9 +109,12 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route index element={<Auth />} />
-          <Route path="/" element={<Auth />} />
-          <Route path="/home" element={<Home movies={movies} reviews={reviews} />} />
+          <Route index element={<Auth onLogin={handleLogin} />} />
+          <Route path="/" element={<Auth onLogin={handleLogin} />} />
+          {/* conditionally shows home page after user signs in */}
+          {isLoggedIn && (
+            <Route path="/home" element={<Home movies={movies} reviews={reviews} />} />
+          )}
         </Routes>
       </BrowserRouter>
     </div>

@@ -14,6 +14,18 @@ app.get('/', (req, res) => {
   res.json('hi from your server :D');
 });
 
+//PROD: construct path to build folder in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+//PROD: serve static build files from react
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+//PROD: ensure all routes are served the index.html file to allow react to manage the routing
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'))
+})
+
 ////////////////////// genres //////////////////////////
 
 // fetching all genres from genres table

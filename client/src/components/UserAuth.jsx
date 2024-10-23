@@ -36,58 +36,61 @@ export default function UserAuth() {
   }
 
   return (
-    <div className='user-auth'> 
-      <h2>UserAuth</h2>
-      <label>Sign In</label>
-        <form onSubmit={handleLoginSubmit}>
-          <label htmlFor="username">Username: </label>
-            <input 
-              type="text" 
-              name="username" 
-              required
-              value={loginData.username}
-              onChange={handleLoginChange}
-              /> <br></br>
-          <label htmlFor="email">Email: </label>
-            <input 
-              type="text" 
-              name="email" 
-              required
-              value={loginData.email}
-              onChange={handleLoginChange}
-              /><br></br>
-            <input 
-              type="submit" 
-              value="Sign In" 
-              />
-        </form>
-
-<br></br>
-
-      <label>Create New User</label>
-        <form onSubmit={handleRegisterSubmit}>
-          <label htmlFor="username">Username: </label>
-            <input 
-              type="text" 
-              name="username" 
-              required
-              value={registerData.username}
-              onChange={handleRegisterChange}
-              /> <br></br>
-          <label htmlFor="email">Email: </label>
-            <input 
-              type="text" 
-              name="email" 
-              required
-              value={registerData.email}
-              onChange={handleRegisterChange}
-              /><br></br>
-            <input 
-              type="submit" 
-              value="Register" 
-              />
-        </form>
+    <div> 
+      <h1>FlixFinder</h1> 
+      <br/>
+        <div className='auth-card'>
+          <div className='auth-form'>
+            <label>Sign In</label>
+              <form onSubmit={handleLoginSubmit}>
+                <label htmlFor="username">Username: </label> <br></br>
+                  <input 
+                    type="text" 
+                    name="username" 
+                    required
+                    value={loginData.username}
+                    onChange={handleLoginChange}
+                    /> <br />
+                <label htmlFor="email">Email: </label> <br></br>
+                  <input 
+                    type="text" 
+                    name="email" 
+                    required
+                    value={loginData.email}
+                    onChange={handleLoginChange}
+                    /> <br></br>
+                  <input 
+                    type="submit" 
+                    value="Sign In" 
+                    />
+              </form>
+            </div>
+      <div className='auth-form'>
+        <label>Create New User</label>
+          <form onSubmit={handleRegisterSubmit}>
+            <label htmlFor="username">Username: </label> <br></br>
+              <input 
+                type="text" 
+                name="username" 
+                required
+                value={registerData.username}
+                onChange={handleRegisterChange}
+                /> <br />
+            <label htmlFor="email">Email: </label> <br></br>
+              <input 
+                type="text" 
+                name="email" 
+                required
+                value={registerData.email}
+                onChange={handleRegisterChange}
+                /> <br />
+              <input 
+                type="submit" 
+                value="Register" 
+                />
+          </form>
+        </div>
     </div>
-
+  </div>
   )
 }

@@ -107,6 +107,20 @@ app.patch('/db/reviews/:id', async (req, res) => {
   }
 })
 
+// delete review by ID
+app.delete('/db/reviews/:id', async (req, res) => {
+  try {
+    // initalizes id you're searching for
+    const { id } = req.params;
+    // query to delete review from database using ID
+    const result = await db.query(`DELETE FROM reviews WHERE id = $1`, [id]);
+    // message to confirm review has been deleted
+    res.send(`Review with the id ${id} has been deleted from the database`);
+  } catch (error) {
+      console.error(`Cannot find review matching id: ${id}: `, error);
+  }
+})
+
 ////////////////// user-genres ////////////////////////
 // fetches user-genres joined table
 app.get('/db/joined', async (req, res) => {

@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "concurrently 'npm start' 'cd .. && cd client && npm run dev' ",
     "start": "nodemon server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -21,7 +22,12 @@
     "pg-promise": "^11.10.1"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.25.9",
+    "@babel/preset-react": "^7.25.9",
+    "@testing-library/jest-dom": "^6.6.2",
+    "@testing-library/react": "^16.0.1",
     "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.0"
+    "@types/express": "^5.0.0",
+    "jest": "^29.7.0"
   }
 }

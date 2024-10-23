@@ -24,11 +24,6 @@ const __dirname = dirname(__filename);
 //PROD: serve static build files from react
 app.use(express.static(join(__dirname, '../client/dist')));
 
-//PROD: ensure all routes are served the index.html file to allow react to manage the routing
-app.get("*", (req, res) => {
-  res.sendFile(join(__dirname, '../client/dist', 'index.html'))
-})
-
 ////////////////////// genres //////////////////////////
 
 // fetching all genres from genres table
@@ -175,6 +170,10 @@ app.get('/db/joined/:user_id', async (req, res) => {
     }
   })
 
+//PROD: ensure all routes are served the index.html file to allow react to manage the routing
+app.get("*", (req, res) => {
+  res.sendFile(join(__dirname, '../client/dist', 'index.html'))
+})
 
 // server is listening on PORT
 app.listen(PORT, () => {

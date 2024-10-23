@@ -4,11 +4,6 @@ require('dotenv').config();
 const path = require('path');
 const db = require('./db/db-connection.js');
 
-//PROD: import frmaeworks for deployment
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
-
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(cors());

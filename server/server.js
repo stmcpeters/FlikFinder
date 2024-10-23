@@ -14,6 +14,8 @@ app.get('/', (req, res) => {
   res.json('hi from your server :D');
 });
 
+////////////////////// genres //////////////////////////
+
 // fetching all genres from genres table
 app.get('/db/genres', async (req, res) => {
   try {
@@ -24,6 +26,7 @@ app.get('/db/genres', async (req, res) => {
   }
 })
 
+///////////////////// users ////////////////////////////
 // fetches all users from user table
 app.get('/db/users', async (req, res) => {
   try {
@@ -34,6 +37,29 @@ app.get('/db/users', async (req, res) => {
   }
 })
 
+// create new user 
+app.post('/db/users', async (req, res) => {
+  try {
+    const { username, email } = req.body;
+    const result = await db.query(`INSERT INTO users (username, email) VALUES ($1, $2)`, [username, email]);
+    res.send(`New user: ${username} has been added to the database`);
+  } catch (error) {
+    console.error('Error creating new user: ', error);
+  }
+})
+
+// delete user by ID
+app.delete('/db/users/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.query(`DELETE FROM users WHERE id = $1`, [id]);
+    res.send(`User with the id ${id} has been deleted from the database`);
+  } catch (error) {
+    console.error(`Error deleting user with the id ${id}: `, error);
+  }
+})
+
+//////////////////// reviews //////////////////////////
 // fetches all reviews from reviews table
 app.get('/db/reviews', async (req, res) => {
   try {
@@ -44,6 +70,7 @@ app.get('/db/reviews', async (req, res) => {
   }
 })
 
+////////////////// user-genres ////////////////////////
 // fetches user-genres joined table
 app.get('/db/joined', async (req, res) => {
   try {
@@ -54,6 +81,7 @@ app.get('/db/joined', async (req, res) => {
   }
 })
 
+/////////////////// movies API //////////////////////
 // fetches popular/recent movies
   app.get('/movies', async (req, res) => {
     try {

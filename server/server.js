@@ -1,8 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
-const path = require('path');
-const db = require('./db/db-connection.js');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
+import { join } from 'path';
+import db from './db/db-connection.js';
+import { fileURLToPath } from 'url';
+import path, { dirname } from 'path';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,11 +22,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 //PROD: serve static build files from react
-app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use(express.static(join(__dirname, '../client/dist')));
 
 //PROD: ensure all routes are served the index.html file to allow react to manage the routing
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'))
+  res.sendFile(join(__dirname, '../client/dist', 'index.html'))
 })
 
 ////////////////////// genres //////////////////////////

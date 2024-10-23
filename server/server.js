@@ -13,9 +13,9 @@ app.use(cors());
 app.use(express.json());
 
 // initial endpoint
-app.get('/', (req, res) => {
-  res.json('hi from your server :D');
-});
+// app.get('/', (req, res) => {
+//   res.json('hi from your server :D');
+// });
 
 //PROD: construct path to build folder in ES modules
 const __filename = fileURLToPath(import.meta.url);

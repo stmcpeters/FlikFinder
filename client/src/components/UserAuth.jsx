@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 export default function UserAuth() {
 
@@ -43,56 +45,68 @@ export default function UserAuth() {
       <br/>
         <div className='auth-card'>
           <div className='auth-form'>
-            <label>Sign In</label>
-              <form onSubmit={handleLoginSubmit}>
-                <label htmlFor="username">Username: </label> <br></br>
-                  <input 
-                    type="text" 
-                    name="username" 
-                    required
-                    value={loginData.username}
-                    onChange={handleLoginChange}
-                    /> <br />
-                <label htmlFor="email">Email: </label> <br></br>
-                  <input 
-                    type="text" 
-                    name="email" 
-                    required
-                    value={loginData.email}
-                    onChange={handleLoginChange}
-                    /> <br></br>
-                  <input 
-                    className='submit-btn'
-                    type="submit" 
-                    value="Sign In" 
-                    />
-              </form>
+            <h2>Sign In</h2>
+              <Form onSubmit={handleLoginSubmit}>
+                <Form.Group>
+                  <Form.Label htmlFor="username">Username: </Form.Label>
+                    <Form.Control 
+                      type="username" 
+                      name="username" 
+                      required
+                      value={loginData.username}
+                      onChange={handleLoginChange}
+                      />
+                </Form.Group>
+
+                <Form.Group>
+                  <Form.Label htmlFor="email">Email: </Form.Label>
+                    <Form.Control 
+                      type="email" 
+                      name="email" 
+                      required
+                      value={loginData.email}
+                      onChange={handleLoginChange}
+                      /> 
+                    <Button 
+                      variant="dark"
+                      className='submit-btn'
+                      type="submit"> 
+                      Sign In
+                    </Button>
+                </Form.Group>
+              </Form>
             </div>
       <div className='auth-form'>
-        <label>Create New User</label>
-          <form onSubmit={handleRegisterSubmit}>
-            <label htmlFor="username">Username: </label> <br></br>
-              <input 
-                type="text" 
-                name="username" 
-                required
-                value={registerData.username}
-                onChange={handleRegisterChange}
-                /> <br />
-            <label htmlFor="email">Email: </label> <br></br>
-              <input 
-                type="text" 
-                name="email" 
-                required
-                value={registerData.email}
-                onChange={handleRegisterChange}
-                /> <br />
-              <input 
-                className='submit-btn'
-                type="submit" 
-                value="Register" 
+        <h2>New User</h2>
+          <Form onSubmit={handleRegisterSubmit}>
+            <Form.Group>
+              <Form.Label htmlFor="username">Username: </Form.Label>
+                <Form.Control
+                  type="username" 
+                  name="username" 
+                  required
+                  value={registerData.username}
+                  onChange={handleRegisterChange}
                 />
-          </form>
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label htmlFor="email">Email: </Form.Label>
+                <Form.Control 
+                  type="email" 
+                  name="email" 
+                  required
+                  value={registerData.email}
+                  onChange={handleRegisterChange}
+                />
+                <Button 
+                  variant='dark'
+                  className='submit-btn'
+                  type="submit">
+                  Register
+                </Button>
+            </Form.Group>
+          </Form>
         </div>
     </div>
   </div>

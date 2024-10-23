@@ -67,13 +67,14 @@ button:focus-visible {
   }
 } */
 
-:root {
+/* :root {
   line-height: 1.5;
   font-weight: 100;
-  background-color: #5eb090;
+  /* background-color: #5eb090; 
   place-items: center;
   margin-top: 50px;
 }
+ */
 
 
 /* applies background color to user authentication component for visibility */
@@ -83,6 +84,9 @@ button:focus-visible {
   margin-left: auto;
   margin-right: auto;
   width: 100%; /* Ensure it takes full width */
+  background-color: #5eb090;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .auth-form {
@@ -90,6 +94,31 @@ button:focus-visible {
   flex-direction: column; /* Stack labels and inputs vertically */
   width: 300px; /* Set a width for each form */
   margin: 0 20px; /* Add space between the forms */
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  margin-right: auto;
+  margin-left: 40%;
+  margin-bottom: 0;
+}
+
+.submit-btn {
+  border-radius: 5px;
+  border: 1px solid transparent;
+  margin: 5px;
+  padding: 5 10px;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+.submit-btn:hover {
+  background-color: black;
+  color: white;
 }
 
 /* applies background color to movie recommendation component for visibility */

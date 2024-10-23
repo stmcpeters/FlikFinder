@@ -28,6 +28,8 @@ export default function UserAuth() {
   // prevents form from being submitted without validating inputs first
   const handleLoginSubmit = (event) => {
     event.preventDefault();
+    // handle user authentication, if ok, onLogin is called
+    onLogin();
   }
   // handles registration submission
   // prevents form from being submitted without validating inputs first
@@ -60,6 +62,7 @@ export default function UserAuth() {
                     onChange={handleLoginChange}
                     /> <br></br>
                   <input 
+                    className='submit-btn'
                     type="submit" 
                     value="Sign In" 
                     />
@@ -85,6 +88,7 @@ export default function UserAuth() {
                 onChange={handleRegisterChange}
                 /> <br />
               <input 
+                className='submit-btn'
                 type="submit" 
                 value="Register" 
                 />

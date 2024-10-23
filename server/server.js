@@ -81,6 +81,17 @@ app.get('/db/joined', async (req, res) => {
   }
 })
 
+// fetches genres for specific user id
+app.get('/db/joined/:user_id', async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    const result = await db.query(`SELECT * FROM user_genres WHERE user_id = $1`, [user_id]);
+    res.json(result.rows);
+  } catch (error) {
+    console.error(`Error fetching genres for the user id ${user_id}: `, error);
+  }
+})
+
 /////////////////// movies API //////////////////////
 // fetches popular/recent movies
   app.get('/movies', async (req, res) => {

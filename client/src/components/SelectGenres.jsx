@@ -35,6 +35,8 @@ export default function SelectGenres() {
     <div className="select-genre">
       <h2>Select Genres</h2>
       <Select options={options} isMulti/>
+      {/* button will save selected genres and fetch movies matching those genres */}
+      <button>Generate Movie</button>
     </div>
   )
 }

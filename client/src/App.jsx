@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import './App.css'
+import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import NavBar from './components/NavBar.jsx'
-// import UserAuth from './components/UserAuth.jsx'
-// import SelectGenres from './components/SelectGenres.jsx'
-// import MovieRec from './components/MovieRec.jsx'
-// import MovieReview from './components/MovieReview.jsx'
 
 import Home from './pages/Home.jsx'
 import Auth from './pages/Auth.jsx'
@@ -108,15 +103,6 @@ function App() {
           <Route path="/home" element={<Home movies={movies} reviews={reviews} />} />
         </Routes>
       </BrowserRouter>
-
-
-
-      {/* <NavBar />
-      <UserAuth />
-      {/* was going to send genres prop but hardcoded data instead */}
-      {/* <SelectGenres />
-      <MovieRec movies={movies} />
-      <MovieReview reviews={reviews} /> */} 
     </div>
   )
 }

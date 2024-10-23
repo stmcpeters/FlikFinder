@@ -80,6 +80,33 @@ app.get('/db/reviews/recent', async (req, res) => {
   }
 })
 
+// create new review 
+app.post('/db/reviews', async (req, res) => {
+  try {
+    const { user_id, movie_id, review_body } = req.body;
+    const result = await db.query(`INSERT INTO reviews (user_id, movie_id, review_body) VALUES ($1, $2, $3)`, [user_id, movie_id, review_body]);
+    res.send(`New review by ${user_id} has been added to the database`);
+  } catch (error) {
+    console.error('Error creating new review: ', error);
+  }
+})
+
+// update/edit review by review ID
+app.patch('/db/reviews/:id', async (req, res) => {
+  try {
+    // initalizes review id you're searching for
+    const { id } = req.params;
+    // gets properties to be updated
+    const { review_body } = req.body;
+    // query to update review by specified user ID
+    const result = await db.query(`UPDATE reviews SET review_body=$1 WHERE id = $2`, [review_body, id]);
+    // message to confirm review has been updated
+    res.send(`Review ${id} has been updated: ${review_body}`);
+  } catch (error) {
+      console.error(`Cannot find review matching that ID `, error);
+  }
+})
+
 ////////////////// user-genres ////////////////////////
 // fetches user-genres joined table
 app.get('/db/joined', async (req, res) => {

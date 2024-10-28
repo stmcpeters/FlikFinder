@@ -15,6 +15,8 @@ function App() {
   const [genres, setGenres] = useState([]);
   // initialize and update reviews state
   const [reviews, setReviews] = useState([]);
+  // initialize and update the array of most recent movies
+  const [recentReviews, setRecentReviews] = useState([]);
   // initialize and update movies state
   const [movies, setMovies] = useState([]);
 
@@ -72,22 +74,39 @@ function App() {
     loadGenres();
   }, []);
 
-  // fetches reviews from database
-  const loadReviews = async () => {
-    try {
-      const response = await fetch("http://localhost:5001/db/reviews");
-      // console.log(response);
-      const data = await response.json();
-      setReviews(data);
-    } catch (error) {
-      console.error('Error fetching reviews: ', error);
-    }
-  }
+  // // fetches reviews from database
+  // const loadReviews = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:5001/db/reviews");
+  //     // console.log(response);
+  //     const data = await response.json();
+  //     setReviews(data);
+  //   } catch (error) {
+  //     console.error('Error fetching reviews: ', error);
+  //   }
+  // }
 
-    // fetches reviews from database on page render
-    useEffect(() => {
-      loadReviews();
-    }, []);
+  //   // fetches reviews from database on page render
+  //   useEffect(() => {
+  //     loadReviews();
+  //   }, []);
+
+    // fetches 10 most recent reviews
+    const fetchRecent = async () => {
+      try {
+        const response = await fetch("http://localhost:5001/db/reviews/recent");
+        const data = await response.json();
+        setRecentReviews(data);
+      } catch(error) {
+        console.error('Error fetching most recent reviews: ', error);
+      }
+    }
+  
+      // fetches reviews from database on page render
+      useEffect(() => {
+        fetchRecent();
+      }, []);
+  
 
   // fetches recent/popular movies from API
   const loadMovies = async () => {
@@ -115,12 +134,16 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route index element={<Auth user={user} onLogin={handleLogin} onSaveUser={onSaveUser} />} />
-          <Route path="/" element={<Auth user={user} onLogin={handleLogin} onSaveUser={onSaveUser} />} />
+          <Route index element={<Home movies={movies} />} />
+          <Route path="/home" element={<Home movies={movies} />} />
+        
+          {/* path to user auth from user profile in navbar */}
+          <Route path='/user' element={<Auth user={user} onLogin={handleLogin} onSaveUser={onSaveUser} />} />
+
           {/* conditionally shows home page after user signs in */}
-          {isLoggedIn && (
-            <Route path="/home" element={<Home movies={movies} reviews={reviews} />} />
-          )}
+          {/* {isLoggedIn && (
+            <Route path="/home" element={<Home movies={movies} />} />
+          )} */}
         </Routes>
       </BrowserRouter>
     </div>

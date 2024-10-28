@@ -8,7 +8,7 @@ import Auth from './pages/Auth.jsx'
 
 function App() {
   // initializes and updates logged in state
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   // initialize and update users state
   const [user, setUser] = useState([]);
   // initialize and update genres state

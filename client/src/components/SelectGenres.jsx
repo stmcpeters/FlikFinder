@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 
-export default function SelectGenres({ genres }) {
+export default function SelectGenres() {
 
   const [availableGenres, setAvailableGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -19,7 +19,7 @@ export default function SelectGenres({ genres }) {
 // fetchGenres() => initial data fetch of available genres on page load
   // fetches genres from genre table and saves to availableGenre state
   // map over each genre to sort value and label (to populate select)
-  
+
   useEffect(() => {
 
     const fetchGenres = async () => {

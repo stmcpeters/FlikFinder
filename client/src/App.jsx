@@ -119,7 +119,7 @@ function App() {
           <Route path="/" element={<Auth user={user} onLogin={handleLogin} onSaveUser={onSaveUser} />} />
           {/* conditionally shows home page after user signs in */}
           {isLoggedIn && (
-            <Route path="/home" element={<Home genres={genres} movies={movies} reviews={reviews} />} />
+            <Route path="/home" element={<Home movies={movies} reviews={reviews} />} />
           )}
         </Routes>
       </BrowserRouter>

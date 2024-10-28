@@ -2,20 +2,23 @@ import React, { useState } from 'react'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-export default function UserAuth() {
+export default function UserAuth({ user, onSaveUser, handleLogin }) {
 
 // login() => will handle fetching user data from DB and set user state as logged in
 // register() => will handle creating new user in DB and set user state as logged in
 
+// console.log("UserAuth props:", { user, onSaveUser, handleLogin });
+
+
   // setting initial state of login data and state to update inputs
   const [loginData, setLoginData] = useState({
     username: '',
-    email: ''
+    password: ''
   })
   // setting initial state of registration data and state to update inputs
   const [registerData, setRegisterData] = useState({
     username: '',
-    email: ''
+    password: ''
   })
 
   // handles the user typing into login fields
@@ -26,12 +29,32 @@ export default function UserAuth() {
   const handleRegisterChange = (event) => {
     setRegisterData({...registerData, [event.target.name]: event.target.value});
   }
+
+  // function to handle post request to create new user
+  const postUser = (newUser) => {
+    return fetch("http://localhost:5001/db/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newUser),
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            //I'm sending data to the parent for updating the list
+            onSaveUser(data);
+        });
+  };
+
   // handles login submission
   // prevents form from being submitted without validating inputs first
   const handleLoginSubmit = (event) => {
     event.preventDefault();
-    // handle user authentication, if ok, onLogin is called
-    onLogin();
+    if(user) {
+      postUser(user);
+    }
+    // handleLogin is called => setting logged in to true
+    handleLogin();
   }
   // handles registration submission
   // prevents form from being submitted without validating inputs first
@@ -46,9 +69,9 @@ export default function UserAuth() {
         <div className='auth-card'>
           <div className='auth-form'>
             <h2>Sign In</h2>
-              <Form onSubmit={handleLoginSubmit}>
+              <Form onSubmit={handleLoginSubmit} method="POST">
                 <Form.Group>
-                  <Form.Label htmlFor="username">Username: </Form.Label>
+                  <Form.Label htmlFor="username">Username</Form.Label>
                     <Form.Control 
                       type="username" 
                       name="username" 
@@ -59,12 +82,12 @@ export default function UserAuth() {
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Label htmlFor="email">Email: </Form.Label>
+                  <Form.Label htmlFor="password">Password</Form.Label>
                     <Form.Control 
-                      type="email" 
-                      name="email" 
+                      type="password" 
+                      name="password" 
                       required
-                      value={loginData.email}
+                      value={loginData.password}
                       onChange={handleLoginChange}
                       /> 
                     <Button 
@@ -80,7 +103,7 @@ export default function UserAuth() {
         <h2>New User</h2>
           <Form onSubmit={handleRegisterSubmit}>
             <Form.Group>
-              <Form.Label htmlFor="username">Username: </Form.Label>
+              <Form.Label htmlFor="username">Username</Form.Label>
                 <Form.Control
                   type="username" 
                   name="username" 
@@ -91,12 +114,13 @@ export default function UserAuth() {
             </Form.Group>
 
             <Form.Group>
-              <Form.Label htmlFor="email">Email: </Form.Label>
+              <Form.Label htmlFor="password">Password</Form.Label>
                 <Form.Control 
-                  type="email" 
-                  name="email" 
+                  type="password" 
+                  name="password" 
                   required
-                  value={registerData.email}
+                  minLength="6"
+                  value={registerData.password}
                   onChange={handleRegisterChange}
                 />
                 <Button 

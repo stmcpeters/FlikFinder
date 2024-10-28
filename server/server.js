@@ -49,9 +49,10 @@ app.get('/db/users', async (req, res) => {
 
 // create new user 
 app.post('/db/users', async (req, res) => {
+  const { username, password } = req.body;
   try {
-    const { username, email } = req.body;
-    const result = await db.query(`INSERT INTO users (username, email) VALUES ($1, $2)`, [username, email]);
+    const result = await db.query(`INSERT INTO users (username, password) VALUES ($1, $2)`, [username, password]);
+    // res.send(result);
     res.send(`New user: ${username} has been added to the database`);
   } catch (error) {
     console.error('Error creating new user: ', error);
@@ -95,7 +96,7 @@ app.post('/db/reviews', async (req, res) => {
   try {
     const { user_id, movie_id, review_body } = req.body;
     const result = await db.query(`INSERT INTO reviews (user_id, movie_id, review_body) VALUES ($1, $2, $3)`, [user_id, movie_id, review_body]);
-    res.send(`New review by ${user_id} has been added to the database`);
+    res.send(`New review by user: ${user_id} has been added to the database`);
   } catch (error) {
     console.error('Error creating new review: ', error);
   }

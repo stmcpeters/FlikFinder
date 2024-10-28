@@ -1,53 +1,69 @@
-// toggleGenre() => adds or removes genres from the selectedGenres
-// saveGenres() => saves the user’s selected genres to DB
 import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 
 export default function SelectGenres({ genres }) {
 
+  const [availableGenres, setAvailableGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
 
   //console.log(genres);
 
+// toggleGenre() => adds or removes genres from the selectedGenres
+  // post request to user-genre table to add favorite genres 
 
-  // const handleGenreSelect = (genres) => {
-  //   setSelectedGenres(genres);
-  // }
-  // const loadGenres = () => {
-  //   fetch("http://localhost:5001/db/genres")
-  //     .then((response) => response.json())
-  //     .then((genres) => {
-  //       setSelectedGenres(genres);
-  //     })
-  // }
 
-  // useEffect(() => {
-  //   loadGenres();
-  // }, []);
 
-  // populate options with genres in genres table
-  const options = [
-    { value: "action", label: "Action" },
-    { value: "adventure", label: "Adventure" },
-    { value: "animation", label: "Animation" },
-    { value: "crime", label: "Crime" },
-    { value: "documentary", label: "Documentary" },
-    { value: "drama", label: "Drama" },
-    { value: "family", label: "Family"},
-    { value: "fantasy", label: "Fantasy" },
-    { value: "history", label: "History" },
-    { value: "horror", label: "Horror" },
-    { value: "music", label: "Music" },
-    { value: "mystery", label: "Mystery" },
-    { value: "news", label: "News" },
-    { value: "reality", label: "Reality" },
-    { value: "romance", label: "Romance" },
-    { value: "scifi", label: "Science Fiction" },
-    { value: "talk", label: "Talk Show" },
-    { value: "thriller", label: "Thriller" },
-    { value: "war", label: "War" },
-    { value: "western", label: "Western" }
-  ]
+  // put request to user-genre table to edit favorite genres
+
+
+// fetchGenres() => initial data fetch of available genres on page load
+  // fetches genres from genre table and saves to availableGenre state
+  // map over each genre to sort value and label (to populate select)
+  
+  useEffect(() => {
+
+    const fetchGenres = async () => {
+      try {
+        // connecting to genres table in DB
+        const response = await fetch('http://localhost:5001/db/genres');
+
+        // error handling if cannot connect to DB
+        if(!response.ok) throw new Error('Network response is not ok </3');
+
+        // parse response data to json format
+        const data = await response.json();
+        // maps over data from genre table to fit select option element format
+        const genreData = data.map(genre => ({
+          value: genre.genre_id,
+          label: genre.genre_name
+        }))
+        // sets genre data to availableGenres
+        setAvailableGenres(genreData);
+        // catches and displays errors fetching data
+      } catch(error) {
+        console.error('Error fetching genres: ', error);
+      }
+    }
+// genres will be fetched on mount (aka page load)
+    fetchGenres();
+  }, []);
+
+    // check if genre data from DB is getting fetched correctly
+    // console.log(availableGenres);
+
+
+
+  const handleGenreSelect = (genres) => {
+    setSelectedGenres(genres);
+  }
+
+
+// handle change/updating options to set as selected
+  // event.target.value
+
+// saveGenres() => prevents button from being submitted 
+    // triggers either post or put requests using user as prop
+    // save options to selected genres
 
 
 
@@ -55,15 +71,9 @@ export default function SelectGenres({ genres }) {
     <>
       <h2>What kind of mood are you in?</h2>
       <div className="select-genre">
-        {/* tries to populate select with genres from DB - shows as undefined */}
-      {/* <select multiple={true} onChange={(event) => setSelectedGenres(event.target.value)}>
-                {genres.map((genre) => (
-                    <option key={genre.genre_id} value={genre.genre_name}>{genre.genre_name}</option> 
-                ))}
-            </select> */}
-
-        {/* uses hardcoded genre options */}
-        <Select options={options} isMulti/>
+        {/* populates options with genres from DB */}
+        {/* displays options and handle changes */}
+        <Select options={availableGenres} isMulti/>
 
         {/* button will save selected genres and fetch movies matching those genres */}
         <button type="button">Generate Movie</button>

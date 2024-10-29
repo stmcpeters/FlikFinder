@@ -104,6 +104,10 @@ h1 {
   margin-bottom: 0;
 }
 
+h2 {
+  display: block;
+}
+
 .submit-btn {
   border-radius: 5px;
   border: 1px solid transparent;
@@ -125,19 +129,26 @@ h1 {
 .movie-rec {
   background-color: lightpink;
 }
+
 /* applies background color to movie review component for visibility */
 .movie-review {
   background-color: lightblue;
 }
+
 /* applies background color to genre selection component for visibility */
 .select-genre {
-  display: flex;
-  justify-content: space-around;
   width: 100%;
   margin-bottom: 30px;
+  background-color: rgb(194, 119, 194);
+  margin: auto;
 }
 
-li {
-  list-style:square;
+.selection {
+  width: 50%;
+}
+
+.review-card {
+  display: flex;
+  justify-content: space-around;
   margin: 10px;
 }

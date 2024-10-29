@@ -1,10 +1,14 @@
 import React from 'react'
 import NavBar from 'client/src/components/NavBar.jsx'
-import { render, screen } from '@testing-library/react'
+import { render, screen, cleanup } from '@testing-library/react'
 // need to render the component in a router if using react-router-dom
 import { MemoryRouter } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
+// makes sure each test is cleared after running
+afterEach(() => {
+  cleanup();
+})
 
 describe('NavBar component', () => {
   it('renders without crashing', () => {

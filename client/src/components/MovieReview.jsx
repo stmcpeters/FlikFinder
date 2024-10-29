@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
 
 export default function MovieReview() {
 
@@ -24,14 +25,24 @@ export default function MovieReview() {
   // submitReview() =>saves a user’s review for a specific movie to the DB
 // userReviews() => fetches all user reviews for specific movie using its movieID
 
+const renderCard = (card) => {
   return (
-    <div className="movie-review">
-      <h2>Most Recent Reviews</h2>
-      <ul>
-        {recents.map((review) => {
-          return <li key={review.id}>Posted at: {review.created_at.split('T')[0]} <br /> {review.review_body}</li>
-        })}
-      </ul>
+    <Card style={{ width: '18rem' }} key={card.id}>
+      <Card.Body>
+        <Card.Title>Posted on: {card.created_at.split('T')[0]}</Card.Title>
+          <Card.Text>{card.review_body}</Card.Text>
+        <Button variant="primary">Movie Details</Button>
+      </Card.Body>
+    </Card>
+  )
+}
+
+  return (
+    <div>
+     <h2>Most Recent Reviews</h2>
+      <div className='review-card'>
+        {recents.map(renderCard)}
+     </div>
     </div>
   )
 }

@@ -69,11 +69,12 @@ export default function SelectGenres() {
 
   return (
     <>
-      <h2>What kind of mood are you in?</h2>
       <div className="select-genre">
+        <h2>What kind of mood are you in?</h2>
+          <br />
         {/* populates options with genres from DB */}
         {/* displays options and handle changes */}
-        <Select options={availableGenres} isMulti/>
+        <Select className="selection" options={availableGenres} isMulti/>
 
         {/* button will save selected genres and fetch movies matching those genres */}
         <button type="button">Generate Movie</button>

@@ -31,12 +31,27 @@ export default function MovieRec({ movies }) {
 
   return (
     <div className="movie-rec">
-      <h2>Movie Rec</h2>
+      <h2>Movie Reccomendation</h2>
       {/* conditionally shows movie details only if randomMovie has been set (is truthy) */}
       {randomMovie && (
         <>
           <h3>{randomMovie.title} ({randomMovie.releaseYear})</h3>
-          <p>{randomMovie.overview}</p>
+          <img src={randomMovie.imageSet.verticalPoster.w240} alt="Vertical movie poster for {randomMovie.title}" /> <br/>
+          <p>
+            Summary: {randomMovie.overview} <br />
+            Genres: {randomMovie.genres[0].name} <br />
+            Runtime: {randomMovie.runtime}min <br />
+          </p>
+          <h4>Streaming Options</h4>
+          <ul>
+              {randomMovie.streamingOptions.us.map((option, index) => (
+                <li key={index}>
+                  Type: {option.type} <br />
+                  {/* Price: {option.price.formatted} <br /> */}
+                  Link: <a href={option.link} target="_blank">Watch Here</a>
+                </li>
+              ))}
+          </ul>
         </>
       )}
     </div>

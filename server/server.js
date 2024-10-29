@@ -84,7 +84,7 @@ app.get('/db/reviews', async (req, res) => {
 // fetches 10 most recent reviews 
 app.get('/db/reviews/recent', async (req, res) => {
   try {
-    const { rows: reviews } = await db.query('SELECT * FROM reviews ORDER BY created_at DESC LIMIT 10');
+    const { rows: reviews } = await db.query('SELECT * FROM reviews ORDER BY created_at DESC LIMIT 3');
     res.send(reviews);
   } catch (error) {
     console.error('Error fetching latest reviews ', error);

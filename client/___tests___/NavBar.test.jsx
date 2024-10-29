@@ -13,8 +13,13 @@ describe('NavBar component', () => {
         <NavBar />
       </MemoryRouter>
     );
-    //screen.debug();    prints HTML structure of component
+    // screen.debug();    prints HTML structure of component
+    // testing if Nav links display
     expect(screen.getByText(/FlixFinder/i)).toBeInTheDocument();
+    expect(screen.getByText(/Home/i)).toBeInTheDocument();
+    expect(screen.getByText(/User Profile/i)).toBeInTheDocument();
+    // testing if the commented out "Features" link is not present
+    expect(screen.queryByText(/Features/i)).not.toBeInTheDocument();
   })
 })
 

@@ -9,7 +9,7 @@ export default function MovieReview() {
   useEffect(() => {
     const getRecents = async () => {
       try {
-        const response = await fetch('http://localhost:5001/db/reviews/recent');
+        const response = await fetch('http://localhost:5001/db/recents');
 
         if(!response.ok) throw new Error('Network response is not ok </3');
 

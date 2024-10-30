@@ -61,10 +61,14 @@ app.post('/db/users', async (req, res) => {
 
 // delete user by ID
 app.delete('/db/users/:id', async (req, res) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
+    // delete the reviews associated with that user ID
+    await db.query(`DELETE FROM reviews WHERE user_id = $1`, [id]);
+    // delete user from user table
     const result = await db.query(`DELETE FROM users WHERE id = $1`, [id]);
-    res.send(`User with the id ${id} has been deleted from the database`);
+    // confirmation message in the console
+    res.send(`User with the id ${id} and their reviews have been deleted from the database`);
   } catch (error) {
     console.error(`Error deleting user with the id ${id}: `, error);
   }
@@ -81,11 +85,27 @@ app.get('/db/reviews', async (req, res) => {
   }
 })
 
-// fetches 3 most recent reviews 
-app.get('/db/reviews/recent', async (req, res) => {
-  try {
-    const { rows: reviews } = await db.query('SELECT * FROM reviews ORDER BY created_at DESC LIMIT 3');
+// fetches reviews by movie ID
+app.get('/db/reviews/:movieid', async (req, res) => {
+  try{
+    // initalizes movie ID you're searching for
+    const { movieid } = req.params;
+    // query to fetch reviews from database using movie ID
+    const { rows: reviews } = await db.query(`SELECT * FROM reviews WHERE movie_id = $1`, [movieid]);
     res.send(reviews);
+  } catch (error) {
+      console.error(`Cannot find reviews matching the movie ID: ${movie_id}: `, error);
+  }
+})
+
+// fetches 3 most recent reviews 
+app.get('/db/recents', async (req, res) => {
+  try {
+    const query = 'SELECT * FROM reviews ORDER BY created_at DESC LIMIT 3'
+
+    const { rows: recents } = await db.query(query);
+
+    res.send(recents);
   } catch (error) {
     console.error('Error fetching latest reviews ', error);
   }
@@ -112,11 +132,23 @@ app.patch('/db/reviews/:id', async (req, res) => {
     // query to update review by specified user ID
     const result = await db.query(`UPDATE reviews SET review_body=$1 WHERE id = $2`, [review_body, id]);
     // message to confirm review has been updated
-    res.send(`Review ${id} has been updated: ${review_body}`);
+    res.send(`Review ${id} has been updated`);
   } catch (error) {
       console.error(`Cannot find review matching that ID `, error);
   }
 })
+
+// work in progress - returning []
+// fetches review by review ID 
+// app.get('/db/reviews/:review_id', async (req, res) => {
+//     const { review_id } = req.params;
+//   try {
+//     const result = await db.query(`SELECT * FROM reviews WHERE id = $1`, [review_id]);
+//     res.send(result);
+//   } catch (error) {
+//     console.error('Error fetching review with ID: ${review_id} ', error);
+//   }
+// })
 
 // delete review by ID
 app.delete('/db/reviews/:id', async (req, res) => {
@@ -144,15 +176,35 @@ app.get('/db/joined', async (req, res) => {
 })
 
 // fetches genres for specific user id
-app.get('/db/joined/:user_id', async (req, res) => {
+app.get('/db/joined/:userid', async (req, res) => {
   try {
-    const { user_id } = req.params;
-    const result = await db.query(`SELECT * FROM user_genres WHERE user_id = $1`, [user_id]);
+    const { userid } = req.params;
+    const result = await db.query(`SELECT * FROM user_genres WHERE user_id = $1`, [userid]);
     res.json(result.rows);
   } catch (error) {
     console.error(`Error fetching genres for the user id ${user_id}: `, error);
   }
 })
+
+// work in progress
+// edit genres for a specific user id 
+// app.patch('/db/joined/:userid', async (req, res) => {
+//   try {
+//     // initalizes user id you're searching for
+//     const { user_id } = req.params;
+//     // gets properties to be updated
+//     const { old_genre_id, new_genre_id } = req.body;
+//     // checks if theres a genre already assigned to the user
+//     const existingGenre = await db.query(`SELECT * FROM user_genres where user_id = $1 AND genre_id = $2`, [user_id, old_genre_id])
+
+//     // query to update genres by specified user ID
+//     const result = await db.query(`UPDATE user_genres SET genre_id=$1 WHERE user_id = $2 AND genre_id = $3`, [new_genre_id, user_id, old]);
+//     // message to confirm review has been updated
+//     res.send(`Genres for user ${user_id} have been updated to: ${genre_id}`);
+//   } catch (error) {
+//       console.error(`Cannot find genres for user: ${user_id} `, error);
+//   }
+// })
 
 /////////////////// movies API //////////////////////
 // fetches popular/recent movies

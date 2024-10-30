@@ -42,16 +42,16 @@ export default function MovieRec({ movies }) {
             Genres: {randomMovie.genres[0].name} <br />
             Runtime: {randomMovie.runtime}min <br />
           </p>
-          <h4>Streaming Options</h4>
+          {/* <h4>Streaming Options</h4>
           <ul>
               {randomMovie.streamingOptions.us.map((option, index) => (
                 <li key={index}>
                   Type: {option.type} <br />
-                  {/* Price: {option.price.formatted} <br /> */}
+                  Price: {option.price.formatted} <br /> 
                   Link: <a href={option.link} target="_blank">Watch Here</a>
                 </li>
               ))}
-          </ul>
+          </ul> */}
         </>
       )}
     </div>

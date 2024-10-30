@@ -1,9 +1,7 @@
-import React from 'react'
-import MovieRec from 'client/src/components/MovieRec.jsx'
-import { render, screen, cleanup } from '@testing-library/react'
-// need to render the component in a router if using react-router-dom
-import { MemoryRouter } from 'react-router-dom'
-import '@testing-library/jest-dom'
+import React from 'react';
+import MovieRec from 'client/src/components/MovieRec.jsx';
+import { render, screen, cleanup } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 afterEach(() => {
   cleanup();
@@ -11,7 +9,6 @@ afterEach(() => {
 
 // array of 2 movies from API data
 const movies = [
-  {"shows": [
     {
       "itemType": "show",
       "showType": "movie",
@@ -281,29 +278,28 @@ const movies = [
             ],
             "expiresSoon": false,
             "availableSince": 1690092681
-            }]}}],
-            "hasMore":true,
-            "nextCursor":"267658:#NoJoke"}
+            }]}},
+       
 ]
 
 describe('Movie Recommendation component', () => {
   it('renders a random movie in the movie rec component', () => {
+    // renders the component and makes sure to pass movies prop
     render(<MovieRec movies={movies} />);
-    screen.debug();
+    // will show the html of component
+    // screen.debug();
   })
 
-  // it('takes an array of movies and returns one', () => {
+  it('returns a loading statement if no movies are found', () => {
+    // initializes empty array for mock
+    const emptyArr = [];
+    // renders component and passes empty array as prop
+    render(<MovieRec movies={emptyArr} />);
+    // we expect to see the loading message if no movies are found
+    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+  })
+
+    // it('takes an array of movies and returns one', () => {
 
   // })
-
-  // it('returns a loading statement if no movies are found', () => {
-  //   const emptyArr = [];
-
-  //   render(
-  //     <MemoryRouter>
-  //       <MovieRec emptyArr={emptyArr} />
-  //     </MemoryRouter>
-  //   );
-
-  //   expect(screen.getByText(/Loading/i)).toBeInTheDocument();
-})
+});

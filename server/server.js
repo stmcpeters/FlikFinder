@@ -81,7 +81,7 @@ app.get('/db/reviews', async (req, res) => {
   }
 })
 
-// fetches 10 most recent reviews 
+// fetches 3 most recent reviews 
 app.get('/db/reviews/recent', async (req, res) => {
   try {
     const { rows: reviews } = await db.query('SELECT * FROM reviews ORDER BY created_at DESC LIMIT 3');
@@ -170,6 +170,26 @@ app.get('/db/joined/:user_id', async (req, res) => {
       console.error('Error fetching movies from API: ', error);
     }
   })
+
+///////////////// AI summary //////////////////////
+// summarizes text
+  app.post('/summarize', async (req,res) => {
+    try {
+      const { text } = req.body;
+      const response = await fetch("https://api.apyhub.com/ai/summarize-text", {
+        method: 'POST',
+        headers: {
+          'apy-token': process.env.APYHUB_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.toStringify({ text })
+      });
+        const data = await response.json();
+        res.send(data);
+      } catch (error) {
+        console.error('Error fetching text summary')
+      }
+    })
 
 //PROD: ensure all routes are served the index.html file to allow react to manage the routing
 app.get("*", (req, res) => {

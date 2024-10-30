@@ -91,7 +91,7 @@ function App() {
   //     loadReviews();
   //   }, []);
 
-    // fetches 10 most recent reviews
+    // fetches 3 most recent reviews
     const fetchRecent = async () => {
       try {
         const response = await fetch("http://localhost:5001/db/reviews/recent");

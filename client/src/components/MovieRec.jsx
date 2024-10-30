@@ -21,17 +21,16 @@ export default function MovieRec({ movies }) {
       }
     }, [movies]);
 
+    // console.log(randomMovie);
 
-    // if movies array has not loaded, loading message will be shown
-    if(!movies.length) {
-      return <p>Loading...</p>
-    }
-
-  //console.log('Movies: ', movies);
+  // if movies array has not loaded, loading message will be shown
+  if(!movies.length) {
+    return <p>Loading...</p>
+  }
 
   return (
     <div className="movie-rec">
-      <h2>Movie Reccomendation</h2>
+      <h2>Movie Recommendation</h2>
       {/* conditionally shows movie details only if randomMovie has been set (is truthy) */}
       {randomMovie && (
         <>
@@ -42,16 +41,16 @@ export default function MovieRec({ movies }) {
             Genres: {randomMovie.genres[0].name} <br />
             Runtime: {randomMovie.runtime}min <br />
           </p>
-          {/* <h4>Streaming Options</h4>
+          <h4>Streaming Options</h4>
           <ul>
               {randomMovie.streamingOptions.us.map((option, index) => (
                 <li key={index}>
                   Type: {option.type} <br />
-                  Price: {option.price.formatted} <br /> 
+                  {/* Price: {option.price.formatted} <br />  */}
                   Link: <a href={option.link} target="_blank">Watch Here</a>
                 </li>
               ))}
-          </ul> */}
+          </ul>
         </>
       )}
     </div>

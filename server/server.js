@@ -176,15 +176,17 @@ app.get('/db/joined/:user_id', async (req, res) => {
   app.post('/summarize', async (req,res) => {
     try {
       const { text } = req.body;
-      const response = await fetch("https://api.apyhub.com/ai/summarize-text", {
+      const num_sentences = 3;
+      const response = await fetch("https://gpt-summarization.p.rapidapi.com", {
         method: 'POST',
         headers: {
-          'apy-token': process.env.APYHUB_KEY,
+          'X-Rapidapi-Host': 'gpt-summarization.p.rapidapi.com',
+          'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
           'Content-Type': 'application/json'
         },
-        body: JSON.toStringify({ text })
+        body: JSON.toStringify({ text, num_sentences})
       });
-        const data = await response.json();
+        const data = await response.json()
         res.send(data);
       } catch (error) {
         console.error('Error fetching text summary')

@@ -28,7 +28,7 @@ export default function ReviewForm ({ reviews, onSaveReview }) {
 
   const params = useParams();
 
-  // fetches exisiting reviews for that id
+  // fetches exisiting reviews for movie ID the user is viewing
   useEffect(() => {
     const fetchReviews = async () => {
       try{
@@ -77,14 +77,14 @@ export default function ReviewForm ({ reviews, onSaveReview }) {
     return Object.values(valuesForm).every(value => value.trim() !== '');
   };
 
-  // comment needed 
+  // prevents submission without validation, alerts if inputs are empty
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!validateForm()) {
       alert('Please fill out all fields.');
       return;
     }
-
+  // attempts to have movie ID populate automatically based on which movie the user is viewing
     const newReview ={
       ...valuesForm,
       movie_id: params.id

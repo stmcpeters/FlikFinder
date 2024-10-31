@@ -127,19 +127,20 @@ h2 {
 
 /* applies background color to movie recommendation component for visibility */
 .movie-rec {
-  background-color: lightpink;
+  background-color: white;
+  border: 1px solid black;
 }
 
 /* applies background color to movie review component for visibility */
 .movie-review {
-  background-color: lightblue;
+  background-color: white;
 }
 
 /* applies background color to genre selection component for visibility */
 .select-genre {
   width: 100%;
   margin-bottom: 30px;
-  background-color: rgb(194, 119, 194);
+  background-color: white;
   margin: auto;
 }
 

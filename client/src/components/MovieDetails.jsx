@@ -14,7 +14,7 @@ export default function MovieDetails({ movies }) {
       return;
     }
 
-    const movie = movies.find(movie => movie.id === parseInt(movie_id));
+    const movie = movies.find(movie => movie.id === parseStr(movie_id));
     setSelectedMovie(movie);
     setLoading(false);
   }, [movies, movie_id]);
@@ -26,6 +26,23 @@ export default function MovieDetails({ movies }) {
   if (!selectedMovie) {
     return <p>Movie not found</p>;
   }
+
+  const summarizeReview = async (reviewBody) => {
+    try {
+      const response = await fetch('/summarize', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: reviewBody, num_sentences: 3 }),
+      });
+      const data = await response.json();
+      return data.summary;
+    } catch (error) {
+      console.error('Error summarizing review:', error);
+      return '';
+    }
+  };
 
   return (
     <div className="<movie-details">
@@ -48,6 +65,13 @@ export default function MovieDetails({ movies }) {
                 </li>
               ))}
           </ul>
+      {/* <h3>User Reviews</h3>
+      {selectedMovie.reviews && selectedMovie.reviews.map(review => (
+        <>
+          <h4>Review by: {review.user.username}</h4>
+          <p>{review.review_body}</p>
+        </>
+      ))} */}
     </div>
   )
 }

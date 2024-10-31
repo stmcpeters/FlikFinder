@@ -1,16 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
-import React from 'react'
 
 export default function MovieDetails({ movies }) {
   const params = useParams();
   const movie_id = params.id;
 
-  const selectedMovie = movies.find(movie => movie.id === parseInt(movie_id));
+  const [loading, setLoading] = useState(true);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
-  if(!selectedMovie) {
-    <p>Loading...</p>
+  useEffect(() => {
+    if (!movies || !movie_id) {
+      setLoading(false);
+      return;
+    }
+
+    const movie = movies.find(movie => movie.id === parseInt(movie_id));
+    setSelectedMovie(movie);
+    setLoading(false);
+  }, [movies, movie_id]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (!selectedMovie) {
+    return <p>Movie not found</p>;
   }
 
   return (

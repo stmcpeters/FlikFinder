@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Home from './pages/Home.jsx'
 import Auth from './pages/Auth.jsx'
+import MovieDetails from './components/MovieDetails.jsx';
 
 function App() {
   // initializes and updates logged in state
@@ -136,7 +137,7 @@ function App() {
         <Routes>
           <Route index element={<Home movies={movies} />} />
           <Route path="/home" element={<Home movies={movies} />} />
-        
+          <Route path='/movie/:id' element={<MovieDetails movies={movies} />} />
           {/* path to user auth from user profile in navbar */}
           <Route path='/user' element={<Auth user={user} onLogin={handleLogin} onSaveUser={onSaveUser} />} />
 

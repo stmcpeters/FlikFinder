@@ -35,17 +35,17 @@ export default function MovieRec({ movies }) {
       {randomMovie && (
         <>
           <h3>{randomMovie.title} ({randomMovie.releaseYear})</h3>
-          <img src={randomMovie.imageSet.verticalPoster.w240} alt="Vertical movie poster for {randomMovie.title}" /> <br/>
-          <p>
-            Summary: {randomMovie.overview} <br />
-            Genres: {randomMovie.genres[0].name} <br />
-            Runtime: {randomMovie.runtime}min <br />
-          </p>
+          <img src={randomMovie.imageSet.verticalPoster.w240} alt={randomMovie.title} /> <br/>
+          <h4>Summary:</h4>
+          <p>{randomMovie.overview}</p>
+          <p>Genres: {randomMovie.genres[0].name}</p>
+          <p>Runtime: {randomMovie.runtime}min</p>
           <h4>Streaming Options</h4>
           <ul>
               {randomMovie.streamingOptions.us.map((option, index) => (
                 <li key={index}>
                   Type: {option.type} <br />
+                  Service: {option.service.name} <br />
                   {/* Price: {option.price.formatted} <br />  */}
                   Link: <a href={option.link} target="_blank">Watch Here</a>
                 </li>

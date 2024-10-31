@@ -3,7 +3,7 @@
 This day and age we’re often overwhelmed by all the options at our fingertips, and FlixFinder hopes to relieve the stress of having to find something new to watch at the end of a long workday. FlixFinder generates a random movie recommendation for users based on their favorite genres and interests. It aims to simplify the movie selection process by providing personalized suggestions from vast streaming platform libraries.
 
 ## Demo
-[image of FlixFinder homepage]
+![](https://github.com/stmcpeters/FlixFinder/blob/main/client/src/assets/flixfinder-demo.gif)
 
 ## Features
 - Create new user

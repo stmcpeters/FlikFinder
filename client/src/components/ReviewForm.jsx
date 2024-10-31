@@ -1,11 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+// helps to access the parameters of the current route to manage the dynamic routes in the URL
+import { useParams } from 'react-router-dom';
+
+// NOTES: Error creating new review:  error: null value in column "user_id" of relation "reviews" violates not-null constraint
+// trying to have user ID and movie ID populate given whos signed in and what movie is currently displaying
 
 export default function ReviewForm ({ reviews, onSaveReview }) {
   // handles review form
-
+  // initializes existing reviews in reviews table
+  const [existingReviews, setExisitingReviews] = useState([])
   // initial values of form to be updated
   const [valuesForm, setValuesForm] = useState({
     username: "",
@@ -20,7 +26,23 @@ export default function ReviewForm ({ reviews, onSaveReview }) {
     errorReviewBody: false,
   });
 
-    // creates functions that handle user typing into fields
+  const params = useParams();
+
+  // fetches exisiting reviews for that id
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try{
+        const response = await fetch(`/db/reviews/${params.id}`);
+        const data = await response.json();
+        setExisitingReviews(data);
+      } catch (error) {
+        console.error('Error fetching reviews: ', error);
+      }
+    }
+    fetchReviews();
+  }, [params.id]);
+
+    // functions that handle user typing into fields
   const handleUsernameInputChange = (event) => {
     const username = event.target.value;
     setValuesForm((valuesForm) => ({ ...valuesForm, username}));
@@ -42,57 +64,50 @@ export default function ReviewForm ({ reviews, onSaveReview }) {
   }
 
   const handleBodyInputChange = (event) => {
-    const body = event.target.value;
-    setValuesForm((valuesForm) => ({ ...valuesForm, body }));
-    if(body === "") {
+    const review_body = event.target.value;
+    setValuesForm((valuesForm) => ({ ...valuesForm, review_body }));
+    if(review_body === "") {
       setError((error) => ({ ...error, errorReviewBody: true }));
     } else {
       setError((error) => ({ ...error, errorReviewBody: false }));
     }
   }
 
-
-  // submitReview() =>saves a user’s review for a specific movie to the DB
-  const submitReview = (newReview) => {
-    const updatedReview ={
-      ...newReview,
-      username: valuesForm.username
-    };
-
-  return fetch("http://localhost:5001/db/reviews", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedReview),
-  })
-      .then((response) => {
-          if(!response.ok) {
-            throw new Error('Network response was not ok')
-          }
-          return response.json();
-      })
-      .then((data) => {
-          onSaveReview(data);
-          //this line just for cleaning the form
-          clearForm();
-      })
-      .catch((error) => console.error('Error posting new review: ', error));
+  const validateForm = () => {
+    return Object.values(valuesForm).every(value => value.trim() !== '');
   };
 
-// event.preventDefault() stops the form from being submitted normally
-// Object.values(valuesForm) gets all form values
-// checks if every value is truthy (not empty)
-// shows an alert if any fields are empty
-// postEntry(valuesForm) sends form data
-
-  const onSubmit = (event) => {
-    // console.log('submit called');
+  // comment needed 
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (Object.values(valuesForm).every(value => value.trim() === '')) {
+    if (!validateForm()) {
       alert('Please fill out all fields.');
       return;
     }
-    submitReview(valuesForm);
-  };  
+
+    const newReview ={
+      ...valuesForm,
+      movie_id: params.id
+    };
+
+    try {
+      const response = await fetch("http://localhost:5001/db/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newReview),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      onSaveReview(data);
+      //this line just for cleaning the form
+      clearForm();
+    } catch (error) {
+      console.error('Error posting new review: ', error);
+      alert('Could not post review, please try again');
+    }
+  }; 
 
   const clearForm = () => {
     setValuesForm({
@@ -107,7 +122,7 @@ export default function ReviewForm ({ reviews, onSaveReview }) {
     <Card className='review-form'>
       <Card.Body>
         <Card.Title>Create New Review</Card.Title>
-          <Form onSubmit={onSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label htmlFor="username">Username</Form.Label>
                 <Form.Control 
@@ -119,27 +134,34 @@ export default function ReviewForm ({ reviews, onSaveReview }) {
                   value={valuesForm.username}
                   onChange={handleUsernameInputChange}
                 />
-              <Form.Label>Movie Title</Form.Label>
+              {error.errorUsername && <span>This field is required</span>}
+            </Form.Group>
+            <Form.Group>
+              <Form.Label htmlFor="movie-title">Movie Title</Form.Label>
                 <Form.Control 
                   type="text"
-                  name="title"
+                  name="movie_title"
                   required
                   value={valuesForm.title}
                   onChange={handleMovieTitleInputChange}
                 />
+              {error.errorMovieTitle && <span>This field is required</span>}
+            </Form.Group>
+            <Form.Group>
               <Form.Label>Review Body</Form.Label>
                 <Form.Control 
-                  type="text"
-                  name="text"
+                  type="textarea"
+                  name="review_body"
                   required
-                  value={valuesForm.body}
+                  value={valuesForm.review_body}
                   onChange={handleBodyInputChange}
                 />
+              {error.errorReviewBody && <span>This field is required</span>}
             </Form.Group>
             <Form.Group>
               <Button type="submit">Create Review</Button>
             </Form.Group>
-            <div id="error-message">Please fill out all fields.</div>
+            {/* <div id="error-message">Please fill out all fields.</div> */}
           </Form>
       </Card.Body>
     </Card>

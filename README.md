@@ -27,8 +27,8 @@ This day and age we’re often overwhelmed by all the options at our fingertips,
 - Dotenv: Hides sensitive environment variables
 - PostgreSQL: Database management system
 ### APIs
-- [Streaming Availability API] (https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability)
-- [AI Summarize API by ApyHub] (https://apyhub.com/utility/ai-summarize)
+- [Streaming Availability API](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability)
+- [GPT Summarization](https://rapidapi.com/OpenedAI/api/gpt-summarization)
 ### Testing
 - Jest
 - React Testing Library
@@ -75,15 +75,28 @@ For this template, the name of your db should be `flix-finder`.
 - Start the React development server using `npm run dev`
 
 5. Sign up/log in to get your own free API key from [Streaming Availability API](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability)
-6. Sign up/log in to get your own free API key from [AI Summarize API](https://apyhub.com/utility/ai-summarize)
+6. Sign up/log in to get your own free API key from [GPT Summarization]([https://apyhub.com/utility/ai-summarize](https://rapidapi.com/OpenedAI/api/gpt-summarization))
 
 ## API Endpoints
-- GET `/users`: retrieves user data
-- POST `/users`: creates new user
-- GET `/movies/<selected-genres>`: fetches movies that match the genres the user has selected
-- GET `/db/reviews/recent`: fetches all reviews sorted by their creation timestamp (most recent first — limited to 3)
+- GET `/db/users`: retrieves all user data
+- POST `/db/users`: creates new user
+- DELETE `/db/users/:id`: deletes a user by ID
+
+- GET `/db/reviews`: fetches all reviews
+- POST `/db/reviews`: creates new review
+- PATCH `/db/reviews/:id`: edit review by review ID
+- DELETE `/db/reviews/:id`: delete review by ID
+- GET `/db/reviews/:movieid`: fetches reviews by movie ID
+- GET `/db/recent`: fetches top 3 most recent reviews sorted using creation timestamp
+
 - GET `/genres`: fetches all genres from genre table to populate genre selection dropdown
+
 - GET `/db/user-genre/:userId:`: returns all genre preferences for a specific user using their user ID
+
+- GET `/movies`: fetches popular/most recent movies
+- GET `/movies/<selected-genres>`: fetches movies that match the genres the user has selected
+
+- POST `/summarize`: uses GPT Summarization AI to summarize text
 
 ## Stretch Goals/Nice-to-Haves
 - auth0 sign in for users

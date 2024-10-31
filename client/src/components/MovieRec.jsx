@@ -35,7 +35,7 @@ export default function MovieRec({ movies }) {
       {randomMovie && (
         <>
           <h3>{randomMovie.title} ({randomMovie.releaseYear})</h3>
-          <img src={randomMovie.imageSet.verticalPoster.w240} alt={randomMovie.title} /> <br/>
+          <img src={randomMovie.imageSet.horizontalPoster.w480} alt={randomMovie.title} /> <br/>
           <h4>Summary:</h4>
           <p>{randomMovie.overview}</p>
           <p>Genres: {randomMovie.genres[0].name}</p>

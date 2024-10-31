@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
 
-export default function MovieReview() {
+export default function MovieReview({ renderCard }) {
 
+  // initializes and sets state for most recent reviews
   const [recents, setRecents] = useState([]);
+  // initializes and sets user reviews fetched by movie ID
+  const [userReviews, setUserReviews] = useState([]);
 
   useEffect(() => {
     const getRecents = async () => {
@@ -22,27 +23,30 @@ export default function MovieReview() {
     getRecents();
   }, []);
 
-  // submitReview() =>saves a user’s review for a specific movie to the DB
-// userReviews() => fetches all user reviews for specific movie using its movieID
+// reviewsByMovie() => fetches all user reviews for specific movie using its movieID
+useEffect(() => {
+  const reviewsByMovie = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/db/reviews/:movieid');
 
-const renderCard = (card) => {
-  return (
-    <Card style={{ width: '18rem' }} key={card.id}>
-      <Card.Body>
-        <Card.Title>Posted on: {card.created_at.split('T')[0]}</Card.Title>
-          <Card.Text>{card.review_body}</Card.Text>
-        <Button variant="primary">Movie Details</Button>
-      </Card.Body>
-    </Card>
-  )
-}
+      if(!response.ok) throw new Error('Network response is not ok </3');
+
+      const data = await response.json();
+      setUserReviews(data);
+    } catch(error){
+      console.error('Error fetching user reviews for this movie: ', error);
+    }
+  }
+  reviewsByMovie();
+}, []);
+//console.log(recents);
 
   return (
     <div>
-     <h2>Most Recent Reviews</h2>
+     {/* <h2>Most Recent Reviews</h2>
       <div className='review-card'>
         {recents.map(renderCard)}
-     </div>
+      </div> */}
     </div>
   )
 }

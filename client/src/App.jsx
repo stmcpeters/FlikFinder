@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
 
 import Home from './pages/Home.jsx'
 import Auth from './pages/Auth.jsx'
@@ -74,22 +76,26 @@ function App() {
     loadGenres();
   }, []);
 
-  // // fetches reviews from database
-  // const loadReviews = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:5001/db/reviews");
-  //     // console.log(response);
-  //     const data = await response.json();
-  //     setReviews(data);
-  //   } catch (error) {
-  //     console.error('Error fetching reviews: ', error);
-  //   }
-  // }
+  // fetches reviews from database
+  const loadReviews = async () => {
+    try {
+      const response = await fetch("http://localhost:5001/db/reviews");
+      // console.log(response);
+      const data = await response.json();
+      setReviews(data);
+    } catch (error) {
+      console.error('Error fetching reviews: ', error);
+    }
+  }
 
-  //   // fetches reviews from database on page render
-  //   useEffect(() => {
-  //     loadReviews();
-  //   }, []);
+    // fetches reviews from database on page render
+    useEffect(() => {
+      loadReviews();
+    }, []);
+
+    const onSaveReview = (newReview) => {
+      setReviews((review) => [...review, newReview]);
+    }
 
     // fetches 3 most recent reviews
     const fetchRecent = async () => {
@@ -129,14 +135,26 @@ function App() {
 // console.log(movies);
 // console.log(users);
 
+const renderCard = (card) => {
+  return (
+    <Card style={{ width: '18rem' }} key={card.id}>
+      <Card.Body>
+        <Card.Title>Posted on: {card.created_at.split('T')[0]}</Card.Title>
+          <Card.Text>{card.review_body}</Card.Text>
+        <Button variant="primary">Movie Details</Button>
+      </Card.Body>
+    </Card>
+  )
+}
+
 
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route index element={<Home movies={movies} />} />
-          <Route path="/home" element={<Home movies={movies} />} />
-        
+          <Route index element={<Home movies={movies} reviews={reviews} card={renderCard} />} />
+          <Route path="/home" element={<Home movies={movies} reviews={reviews} onSaveReview={onSaveReview} card={renderCard} />} />
+
           {/* path to user auth from user profile in navbar */}
           <Route path='/user' element={<Auth user={user} onLogin={handleLogin} onSaveUser={onSaveUser} />} />
 

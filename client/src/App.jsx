@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import Home from './pages/Home.jsx'
-import Auth from './pages/Auth.jsx'
+import NavBar from './components/NavBar.jsx';
+import SelectGenres from './components/SelectGenres.jsx';
+import MovieReview from './components/MovieReview.jsx';
+import MovieRec from './components/MovieRec.jsx';
 
 function App() {
   // initializes and updates logged in state
@@ -132,20 +132,11 @@ function App() {
 
   return (
     <div>
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<Home movies={movies} />} />
-          <Route path="/home" element={<Home movies={movies} />} />
-        
-          {/* path to user auth from user profile in navbar */}
-          <Route path='/user' element={<Auth user={user} onLogin={handleLogin} onSaveUser={onSaveUser} />} />
-
-          {/* conditionally shows home page after user signs in */}
-          {/* {isLoggedIn && (
-            <Route path="/home" element={<Home movies={movies} />} />
-          )} */}
-        </Routes>
-      </BrowserRouter>
+      <NavBar />
+      {/* <UserAuth /> */}
+      <SelectGenres />
+      <MovieRec movies={movies} />
+      <MovieReview />
     </div>
   )
 }

@@ -75,7 +75,7 @@ For this template, the name of your db should be `flix-finder`.
 - Start the React development server using `npm run dev`
 
 5. Sign up/log in to get your own free API key from [Streaming Availability API](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability)
-6. Sign up/log in to get your own free API key from [GPT Summarization]([https://apyhub.com/utility/ai-summarize](https://rapidapi.com/OpenedAI/api/gpt-summarization))
+6. Sign up/log in to get your own free API key from [GPT Summarization](https://rapidapi.com/OpenedAI/api/gpt-summarization)
 
 ## API Endpoints
 - GET `/db/users`: retrieves all user data

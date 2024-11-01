@@ -17,8 +17,10 @@ function App() {
   const [reviews, setReviews] = useState([]);
   // initialize and update the array of most recent movies
   const [recentReviews, setRecentReviews] = useState([]);
-  // initialize and update movies state
+  // initializes state for movies fetched from API
   const [movies, setMovies] = useState([]);
+
+  const [selectedGenre, setSelectedGenre] = useState('');
 
 
   // functions for user login/log out
@@ -108,34 +110,68 @@ function App() {
       }, []);
   
 
-  // fetches recent/popular movies from API
-  const loadMovies = async () => {
-    try {
-      const response = await fetch("http://localhost:5001/movies");
-      // console.log(response);
-      const data = await response.json();
-      setMovies(data.shows);
-    } catch (error) {
-      console.error('Error fetching movies: ', error);
-    }
-  }
+  // // fetches recent/popular movies from API
+  // const loadMovies = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:5001/movies");
+  //     // console.log(response);
+  //     const data = await response.json();
+  //     setMovies(data.shows);
+  //   } catch (error) {
+  //     console.error('Error fetching movies: ', error);
+  //   }
+  // }
 
-    // fetches movies from API on page render
-    useEffect(() => {
-      loadMovies();
-    }, []);
+  //   // fetches movies from API on page render
+  //   useEffect(() => {
+  //     loadMovies();
+  //   }, []);
 
 // console.log(reviews);
 // console.log(movies);
 // console.log(users);
 
 
+const getSelectedGenre = (selectedOption) => {
+  if (selectedOption) {
+    const selectedGenre = selectedOption.value;
+    console.log('Selected Genre: ', selectedGenre);
+    setSelectedGenre(selectedGenre);
+  }
+};
+
+
+//  fetchRecommendation() => makes the call to the movies API using the users selected genres and returns an array of movies with that genre
+const fetchRecommendation = async (genre) => {
+  const baseAPIURL = 'https://streaming-availability.p.rapidapi.com';
+  const requestParams = '/shows/search/filters?country=us&series_granularity=show&order_direction=desc&order_by=original_title&show_original_language=en&genres_relation=or&output_language=en&show_type=movie&genres=';
+  // const genre = selectedGenre;
+  const URLToFetch = `${baseAPIURL}${requestParams}${genre}`;
+
+  try {
+    const response = await fetch (URLToFetch, {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com',
+        'X-RapidAPI-Key': import.meta.env.VITE_RAPIDAPI_KEY,
+      }
+    });
+    console.log('fetching from URL: ', URLToFetch);
+    const data = await response.json();
+    //console.log('fetched data: ', data)
+    // making sure to get the shows (movies) array within the response
+      setMovies(data.shows);
+  } catch(error) {
+    console.error('Unable to fetch movies: ', error);
+  }
+} 
+
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route index element={<Home movies={movies} />} />
-          <Route path="/home" element={<Home movies={movies} />} />
+          <Route index element={<Home movies={movies} reviews={reviews} getSelectedGenre={getSelectedGenre} selectedGenre={selectedGenre} fetchRecommendation={fetchRecommendation} />} />
+          <Route path="/home" element={<Home movies={movies} reviews={reviews} getSelectedGenre={getSelectedGenre} selectedGenre={selectedGenre} fetchRecommendation={fetchRecommendation} />} />
         
           {/* path to user auth from user profile in navbar */}
           <Route path='/user' element={<Auth user={user} onLogin={handleLogin} onSaveUser={onSaveUser} />} />

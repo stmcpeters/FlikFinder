@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 
-export default function SelectGenres() {
-
+export default function SelectGenres({ getSelectedGenre, fetchRecommendation }) {
+  // initializes values to update state of genres in drop down selection
   const [availableGenres, setAvailableGenres] = useState([]);
-  const [selectedGenres, setSelectedGenres] = useState([]);
+  // captures user selection of genre
+  const [selectedOption, setSelectedOption] = useState(null);
+  // sets and updates the selected genre the user chose
+  const [selectedGenre, setSelectedGenre] = useState(null);
 
   //console.log(genres);
 
 // toggleGenre() => adds or removes genres from the selectedGenres
   // post request to user-genre table to add favorite genres 
-
-
-
   // put request to user-genre table to edit favorite genres
 
 
@@ -51,20 +51,21 @@ export default function SelectGenres() {
     // check if genre data from DB is getting fetched correctly
     // console.log(availableGenres);
 
+// captures user genre choice and passes selected option into function to update state of genre selected 
+const handleSelection = (selectedOption) => {
+  setSelectedOption(selectedOption);
+  setSelectedGenre(selectedOption);
+  getSelectedGenre(selectedOption);
+}
 
-
-  const handleGenreSelect = (genres) => {
-    setSelectedGenres(genres);
+// passes selected option as a prop to call fetchRecommendation to fetch movies from API
+// selects specifically the value to be input as genre in URL to fetch movies vs genre label
+const handleGenerateMovie = () => {
+  if(selectedOption){
+    console.log('generating movie for genre: ', selectedOption.value);
+    fetchRecommendation(selectedOption.value);
   }
-
-
-// handle change/updating options to set as selected
-  // event.target.value
-
-// saveGenres() => prevents button from being submitted 
-    // triggers either post or put requests using user as prop
-    // save options to selected genres
-
+}
 
 
   return (
@@ -74,10 +75,15 @@ export default function SelectGenres() {
           <br />
         {/* populates options with genres from DB */}
         {/* displays options and handle changes */}
-        <Select className="selection" options={availableGenres} isMulti/>
+        <Select 
+          className="selection" 
+          options={availableGenres} 
+          id="genres" 
+          onChange={handleSelection} 
+          value={selectedOption} />
 
         {/* button will save selected genres and fetch movies matching those genres */}
-        <button type="button">Generate Movie</button>
+        <button type="button" onClick={handleGenerateMovie}>Generate Movie</button>
       </div>
     </>
   )

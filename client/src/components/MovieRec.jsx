@@ -30,10 +30,10 @@ export default function MovieRec({ movies }) {
 
   return (
     <div className="movie-rec">
-      <h2>Movie Recommendation</h2>
       {/* conditionally shows movie details only if randomMovie has been set (is truthy) */}
       {randomMovie && (
         <>
+          <h2>Movie Recommendation</h2>
           <h3>{randomMovie.title} ({randomMovie.releaseYear})</h3>
           <img src={randomMovie.imageSet.horizontalPoster.w480} alt={randomMovie.title} /> <br/>
           <h4>Summary:</h4>
@@ -41,13 +41,11 @@ export default function MovieRec({ movies }) {
           <p>Genres: {randomMovie.genres[0].name}</p>
           <p>Runtime: {randomMovie.runtime}min</p>
           <h4>Streaming Options</h4>
-          <ul>
+          <ul className='streaming-options'>
               {randomMovie.streamingOptions.us.map((option, index) => (
                 <li key={index}>
-                  Type: {option.type} <br />
-                  Service: {option.service.name} <br />
-                  {/* Price: {option.price.formatted} <br />  */}
-                  Link: <a href={option.link} target="_blank">Watch Here</a>
+                  {option.type} on {option.service.name}: <br />
+                  <a href={option.link} target="_blank"> Watch Here</a>
                 </li>
               ))}
           </ul>

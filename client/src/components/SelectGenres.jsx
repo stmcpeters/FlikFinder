@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 
-export default function SelectGenres() {
+export default function SelectGenres({ getSelectedGenre }) {
 
   const [availableGenres, setAvailableGenres] = useState([]);
-  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedGenre, setSelectedGenre] = useState(null);
 
   //console.log(genres);
 
@@ -52,11 +53,10 @@ export default function SelectGenres() {
     // console.log(availableGenres);
 
 
-
-  const handleGenreSelect = (genres) => {
-    setSelectedGenres(genres);
-  }
-
+const handleSelection = (selectedOption) => {
+  setSelectedGenre(selectedOption);
+  getSelectedGenre(selectedOption);
+}
 
 // handle change/updating options to set as selected
   // event.target.value
@@ -74,7 +74,12 @@ export default function SelectGenres() {
           <br />
         {/* populates options with genres from DB */}
         {/* displays options and handle changes */}
-        <Select className="selection" options={availableGenres} isMulti/>
+        <Select 
+          className="selection" 
+          options={availableGenres} 
+          id="genres" 
+          onChange={handleSelection} 
+          value={selectedOption} />
 
         {/* button will save selected genres and fetch movies matching those genres */}
         <button type="button">Generate Movie</button>

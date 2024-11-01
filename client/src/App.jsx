@@ -20,6 +20,8 @@ function App() {
   // initialize and update movies state
   const [movies, setMovies] = useState([]);
 
+  const [selectedGenre, setSelectedGenre] = useState('');
+
 
   // functions for user login/log out
   const handleLogin = () => {
@@ -130,12 +132,20 @@ function App() {
 // console.log(users);
 
 
+const getSelectedGenre = (selectedOption) => {
+  if (selectedOption) {
+    const selectedGenre = selectedOption.value;
+    console.log('Selected Genre: ', selectedGenre);
+    setSelectedGenre(selectedGenre);
+  }
+};
+
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route index element={<Home movies={movies} />} />
-          <Route path="/home" element={<Home movies={movies} />} />
+          <Route index element={<Home movies={movies} getSelectedGenre={getSelectedGenre} reviews={reviews} />} />
+          <Route path="/home" element={<Home movies={movies} getSelectedGenre={getSelectedGenre} reviews={reviews} />} />
         
           {/* path to user auth from user profile in navbar */}
           <Route path='/user' element={<Auth user={user} onLogin={handleLogin} onSaveUser={onSaveUser} />} />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 
-export default function SelectGenres({ getSelectedGenre }) {
+export default function SelectGenres({ getSelectedGenre, fetchRecommendation }) {
   // initializes values to update state of genres in drop down selection
   const [availableGenres, setAvailableGenres] = useState([]);
   // captures user selection of genre
@@ -53,8 +53,18 @@ export default function SelectGenres({ getSelectedGenre }) {
 
 // captures user genre choice and passes selected option into function to update state of genre selected 
 const handleSelection = (selectedOption) => {
+  setSelectedOption(selectedOption);
   setSelectedGenre(selectedOption);
   getSelectedGenre(selectedOption);
+}
+
+// passes selected option as a prop to call fetchRecommendation to fetch movies from API
+// selects specifically the value to be input as genre in URL to fetch movies vs genre label
+const handleGenerateMovie = () => {
+  if(selectedOption){
+    console.log('generating movie for genre: ', selectedOption.value);
+    fetchRecommendation(selectedOption.value);
+  }
 }
 
 
@@ -73,7 +83,7 @@ const handleSelection = (selectedOption) => {
           value={selectedOption} />
 
         {/* button will save selected genres and fetch movies matching those genres */}
-        <button type="button">Generate Movie</button>
+        <button type="button" onClick={handleGenerateMovie}>Generate Movie</button>
       </div>
     </>
   )

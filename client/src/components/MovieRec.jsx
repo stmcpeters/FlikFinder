@@ -1,14 +1,11 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
-export default function MovieRec({ movies }) {
+export default function MovieRec({ movies, selectedGenre, fetchRecommendation }) {
 
-  //  fetchRecommendation() => retrieves array of movie recommendation based on user’s selected genre
-//  selectRandomMovie(movies) => takes the array of movies recommended and uses math.random to select and return a random single movie
-//  displayMovie(movie) => renders the recommended movie’s data to the screen
-
+  // initializes state for random movie to display
   const [randomMovie, setRandomMovie] = useState(null);
 
+  //  selectRandomMovie(movies) => takes the array of movies recommended and uses math.random to select and return a random single movie
   const selectRandomMovie = (movies) => {
     const randomIndex = Math.floor(Math.random() * movies.length);
     return movies[randomIndex];
@@ -23,9 +20,20 @@ export default function MovieRec({ movies }) {
 
     // console.log(randomMovie);
 
-  // if movies array has not loaded, loading message will be shown
-  if(!movies.length) {
-    return <p>Loading...</p>
+  // sets movies to fetched data from movies API
+  const handleFetchMovies = async () => {
+    const fetchedMovies = await fetchRecommendation(selectedGenre.value);
+    setMovies(fetchedMovies);
+  }
+
+  // // if movies array has not loaded, loading message will be shown
+  // if(!movies.length) {
+  //   return <p>Loading...</p>
+  // }
+
+  // will display this message if a user has not selected a genre yet
+  if (!selectedGenre) {
+    return <p>Please select a genre to see recommendations.</p>;
   }
 
   return (

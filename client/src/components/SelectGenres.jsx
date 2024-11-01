@@ -2,18 +2,17 @@ import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 
 export default function SelectGenres({ getSelectedGenre }) {
-
+  // initializes values to update state of genres in drop down selection
   const [availableGenres, setAvailableGenres] = useState([]);
+  // captures user selection of genre
   const [selectedOption, setSelectedOption] = useState(null);
+  // sets and updates the selected genre the user chose
   const [selectedGenre, setSelectedGenre] = useState(null);
 
   //console.log(genres);
 
 // toggleGenre() => adds or removes genres from the selectedGenres
   // post request to user-genre table to add favorite genres 
-
-
-
   // put request to user-genre table to edit favorite genres
 
 
@@ -52,19 +51,11 @@ export default function SelectGenres({ getSelectedGenre }) {
     // check if genre data from DB is getting fetched correctly
     // console.log(availableGenres);
 
-
+// captures user genre choice and passes selected option into function to update state of genre selected 
 const handleSelection = (selectedOption) => {
   setSelectedGenre(selectedOption);
   getSelectedGenre(selectedOption);
 }
-
-// handle change/updating options to set as selected
-  // event.target.value
-
-// saveGenres() => prevents button from being submitted 
-    // triggers either post or put requests using user as prop
-    // save options to selected genres
-
 
 
   return (

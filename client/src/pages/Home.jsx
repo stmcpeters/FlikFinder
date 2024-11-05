@@ -1,7 +1,7 @@
 import React from 'react'
 import NavBar from '../components/NavBar'
 import SelectGenres from '../components/SelectGenres'
-import MovieRec from '../components/MovieRec'
+import MovieDetails from '../components/MovieDetails'
 import MovieReview from '../components/MovieReview'
 
 export default function Home({ movies, reviews }) {
@@ -9,7 +9,7 @@ export default function Home({ movies, reviews }) {
     <>
       <NavBar />
       <SelectGenres />
-      <MovieRec movies={movies}/>
+      <MovieDetails movies={movies}/>
       <MovieReview reviews={reviews}/>
     </>
   )

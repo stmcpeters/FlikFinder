@@ -236,10 +236,10 @@ app.get('/db/joined/:userid', async (req, res) => {
           'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
           'Content-Type': 'application/json'
         },
-        body: JSON.toStringify({ text, num_sentences})
+        body: JSON.stringify({ text, num_sentences})
       });
-        const data = await response.json()
-        res.send(data);
+        const data = await response.json();
+        res.json(data);
       } catch (error) {
         console.error('Error fetching text summary')
       }

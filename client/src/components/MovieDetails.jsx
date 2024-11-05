@@ -7,6 +7,7 @@ export default function MovieDetails({ movies }) {
 
   const [loading, setLoading] = useState(true);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [summary, setSummary] = useState('');
 
   useEffect(() => {
     if (!movies || !movie_id) {
@@ -14,7 +15,7 @@ export default function MovieDetails({ movies }) {
       return;
     }
 
-    const movie = movies.find(movie => movie.id === parseStr(movie_id));
+    const movie = movies.find(movie => movie.id === parseInt(movie_id));
     setSelectedMovie(movie);
     setLoading(false);
   }, [movies, movie_id]);
@@ -27,31 +28,44 @@ export default function MovieDetails({ movies }) {
     return <p>Movie not found</p>;
   }
 
-  const summarizeReview = async (reviewBody) => {
+  // if the selected movie has an overview, it'll call summarizeReview and pass the movie's overview as an argument
+  useEffect(() => {
+    if (selectedMovie && selectedMovie.overview) {
+      summarizeReview(selectedMovie.overview);
+    }
+  }, [selectedMovie]);
+
+  const summarizeReview = async (overview) => {
     try {
       const response = await fetch('/summarize', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: reviewBody, num_sentences: 3 }),
+        body: JSON.stringify({ text: overview, num_sentences: 3 }),
       });
       const data = await response.json();
-      return data.summary;
+      if(data && data.summary) {
+        setSummary(data.summary);
+      }
     } catch (error) {
       console.error('Error summarizing review:', error);
-      return '';
+      // return '';
     }
   };
 
+  console.log('overview: ', selectedMovie.overview);
+  console.log('summary: ',summary);
+
   return (
-    <div className="<movie-details">
+    <div className="movie-details">
       <h1>{selectedMovie.title} ({selectedMovie.releaseYear})</h1>
       <img 
         src={selectedMovie.imageSet.verticalPoster.w420} 
         alt={selectedMovie.title} />
       <h3>Summary:</h3>
-          <p>{selectedMovie.overview}</p>
+      {summary ? (<p>{summary}</p>) : (
+          <p>{selectedMovie.overview}</p> )}
           <p>Genres: {selectedMovie.genres[0].name}</p>
           <p>Runtime: {selectedMovie.runtime}min</p>
           <h4>Streaming Options</h4>

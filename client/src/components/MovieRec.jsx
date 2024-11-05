@@ -5,6 +5,7 @@ export default function MovieRec({ movies, selectedGenre, fetchRecommendation })
   // initializes state for random movie to display
   const [randomMovie, setRandomMovie] = useState(null);
   const [summary, setSummary] =useState('');
+  const[isSummaryLoading, setIsSummaryLoading] = useState(false);
 
   //  selectRandomMovie(movies) => takes the array of movies recommended and uses math.random to select and return a random single movie
   const selectRandomMovie = (movies) => {
@@ -16,7 +17,8 @@ export default function MovieRec({ movies, selectedGenre, fetchRecommendation })
   useEffect(() => {
     if(movies.length > 0) {
       setRandomMovie(selectRandomMovie(movies));
-      // summarizeReview(randomMovie.overview);
+      setSummary(''); // Clear the previous summary
+      setIsSummaryLoading(true); // Start loading summary
       }
     }, [movies]);
 
@@ -30,10 +32,10 @@ export default function MovieRec({ movies, selectedGenre, fetchRecommendation })
 
     // summarize the overview only when randomMovie changes
     useEffect(() => {
-      if (randomMovie && randomMovie.overview) {
+      if (randomMovie && randomMovie.overview && isSummaryLoading) {
         summarizeReview(randomMovie.overview);
       }
-    }, [randomMovie]);
+    }, [randomMovie,isSummaryLoading]);
 
 
   // // if movies array has not loaded, loading message will be shown
@@ -62,6 +64,8 @@ export default function MovieRec({ movies, selectedGenre, fetchRecommendation })
     } catch (error) {
       console.error('Error summarizing review:', error);
       // return '';
+    } finally {
+      setIsSummaryLoading(false);
     }
   };
 
@@ -77,7 +81,7 @@ export default function MovieRec({ movies, selectedGenre, fetchRecommendation })
           <h3>{randomMovie.title} ({randomMovie.releaseYear})</h3>
           <img src={randomMovie.imageSet.horizontalPoster.w480} alt={randomMovie.title} /> <br/>
           <h4>Summary:</h4>
-          <p>{summary ? summary : randomMovie.overview}</p>
+          <p>{isSummaryLoading ? 'Loading summary...' : summary || randomMovie.overview }</p>
           <p>Genres: {randomMovie.genres[0].name}</p>
           <p>Rating: {randomMovie.rating}/100</p>
           <p>Runtime: {randomMovie.runtime}min</p>

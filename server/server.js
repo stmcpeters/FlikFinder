@@ -229,14 +229,14 @@ app.get('/db/joined/:userid', async (req, res) => {
     try {
       const { text } = req.body;
       const num_sentences = 3;
-      const response = await fetch("https://gpt-summarization.p.rapidapi.com", {
+      const response = await fetch("https://gpt-summarization.p.rapidapi.com/summarize", {
         method: 'POST',
         headers: {
           'X-Rapidapi-Host': 'gpt-summarization.p.rapidapi.com',
           'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
           'Content-Type': 'application/json'
         },
-        body: JSON.toStringify({ text, num_sentences})
+        body: JSON.stringify({ text, num_sentences})
       });
         const data = await response.json()
         res.send(data);

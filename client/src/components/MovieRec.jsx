@@ -4,6 +4,7 @@ export default function MovieRec({ movies, selectedGenre, fetchRecommendation })
 
   // initializes state for random movie to display
   const [randomMovie, setRandomMovie] = useState(null);
+  const [summary, setSummary] =useState('');
 
   //  selectRandomMovie(movies) => takes the array of movies recommended and uses math.random to select and return a random single movie
   const selectRandomMovie = (movies) => {
@@ -15,6 +16,7 @@ export default function MovieRec({ movies, selectedGenre, fetchRecommendation })
   useEffect(() => {
     if(movies.length > 0) {
       setRandomMovie(selectRandomMovie(movies));
+      // summarizeReview(randomMovie.overview);
       }
     }, [movies]);
 
@@ -26,6 +28,14 @@ export default function MovieRec({ movies, selectedGenre, fetchRecommendation })
     setMovies(fetchedMovies);
   }
 
+    // summarize the overview only when randomMovie changes
+    useEffect(() => {
+      if (randomMovie && randomMovie.overview) {
+        summarizeReview(randomMovie.overview);
+      }
+    }, [randomMovie]);
+
+
   // // if movies array has not loaded, loading message will be shown
   // if(!movies.length) {
   //   return <p>Loading...</p>
@@ -36,6 +46,28 @@ export default function MovieRec({ movies, selectedGenre, fetchRecommendation })
     return <p>Please select a genre to see recommendations.</p>;
   }
 
+  const summarizeReview = async (overview) => {
+    try {
+      const response = await fetch('http://localhost:5001/summarize', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: overview, num_sentences: 3 }),
+      });
+      const data = await response.json();
+      if(data && data.summary) {
+        setSummary(data.summary);
+      }
+    } catch (error) {
+      console.error('Error summarizing review:', error);
+      // return '';
+    }
+  };
+
+  // console.log('overview: ', randomMovie.overview);
+  // console.log('summary: ',summary);
+
   return (
     <div className="movie-rec">
       {/* conditionally shows movie details only if randomMovie has been set (is truthy) */}
@@ -45,8 +77,9 @@ export default function MovieRec({ movies, selectedGenre, fetchRecommendation })
           <h3>{randomMovie.title} ({randomMovie.releaseYear})</h3>
           <img src={randomMovie.imageSet.horizontalPoster.w480} alt={randomMovie.title} /> <br/>
           <h4>Summary:</h4>
-          <p>{randomMovie.overview}</p>
+          <p>{summary ? summary : randomMovie.overview}</p>
           <p>Genres: {randomMovie.genres[0].name}</p>
+          <p>Rating: {randomMovie.rating}/100</p>
           <p>Runtime: {randomMovie.runtime}min</p>
           <h4>Streaming Options</h4>
           <ul className='streaming-options'>

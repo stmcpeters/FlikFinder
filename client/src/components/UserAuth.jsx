@@ -2,13 +2,7 @@ import React, { useState } from 'react'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-export default function UserAuth({ user, onSaveUser, handleLogin }) {
-
-// login() => will handle fetching user data from DB and set user state as logged in
-// register() => will handle creating new user in DB and set user state as logged in
-
-// console.log("UserAuth props:", { user, onSaveUser, handleLogin });
-
+export default function UserAuth({ user, isLoggedIn, setIsLoggedIn,  setUser }) {
 
   // setting initial state of login data and state to update inputs
   const [loginData, setLoginData] = useState({
@@ -41,8 +35,8 @@ export default function UserAuth({ user, onSaveUser, handleLogin }) {
             return response.json();
         })
         .then((data) => {
-            //I'm sending data to the parent for updating the list
-            onSaveUser(data);
+            setUser(data);
+            setIsLoggedIn(true);
         });
   };
 
@@ -50,16 +44,42 @@ export default function UserAuth({ user, onSaveUser, handleLogin }) {
   // prevents form from being submitted without validating inputs first
   const handleLoginSubmit = (event) => {
     event.preventDefault();
-    if(user) {
-      postUser(user);
+    if(loginData.username && loginData.password) {
+      // checks if inputted loginData matches existing user data - used "usr" to limit confusion
+      const userFound = user.find((usr) => usr.username === loginData.username && usr.password === loginData.password)
+      // sets updates states if loginData matches existing user
+      if(userFound) {
+        setIsLoggedIn(true);
+        setUser(userFound);
+        console.log('login successful');
+        // error handling if inputted loginData doesn't match an existing user
+      } else {
+        console.error('Login failed: ', error);
+        alert('Existing user not found, please register');
+      }
+      // error handling if no values in login username and password
+    } else {
+      console.error('Both fields are required');
+      alert('Please fill out both fields');
     }
-    // handleLogin is called => setting logged in to true
-    handleLogin();
   }
+  
   // handles registration submission
   // prevents form from being submitted without validating inputs first
   const handleRegisterSubmit = (event) => {
     event.preventDefault();
+    if(registerData.username && registerData.password) {
+      // create new user object
+      const newUser = {
+        username: registerData.username,
+        password: registerData.password
+      };
+      // calls the postUser function to create a new user
+      postUser(newUser)
+        // updates login state after registration
+        .then(() => setIsLoggedIn(true))
+        .catch((error) => console.error('Registration error: ', error));
+    }
   }
 
   return (
@@ -69,11 +89,11 @@ export default function UserAuth({ user, onSaveUser, handleLogin }) {
         <div className='auth-card'>
           <div className='auth-form'>
             <h2>Sign In</h2>
-              <Form onSubmit={handleLoginSubmit} method="POST">
+              <Form onSubmit={handleLoginSubmit}>
                 <Form.Group>
                   <Form.Label htmlFor="username">Username</Form.Label>
                     <Form.Control 
-                      type="username" 
+                      type="text" 
                       name="username" 
                       required
                       value={loginData.username}
@@ -134,5 +154,4 @@ export default function UserAuth({ user, onSaveUser, handleLogin }) {
         </div>
     </div>
   </div>
-  )
-}
+  )}

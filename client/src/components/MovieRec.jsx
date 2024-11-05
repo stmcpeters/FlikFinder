@@ -4,7 +4,9 @@ export default function MovieRec({ movies, selectedGenre, fetchRecommendation })
 
   // initializes state for random movie to display
   const [randomMovie, setRandomMovie] = useState(null);
+  // will hold the movie summary
   const [summary, setSummary] =useState('');
+  // initializes loading state 
   const[isSummaryLoading, setIsSummaryLoading] = useState(false);
 
   //  selectRandomMovie(movies) => takes the array of movies recommended and uses math.random to select and return a random single movie
@@ -48,6 +50,7 @@ export default function MovieRec({ movies, selectedGenre, fetchRecommendation })
     return <p>Please select a genre to see recommendations.</p>;
   }
 
+  // async function to send the movie overview to an API for summarization
   const summarizeReview = async (overview) => {
     try {
       const response = await fetch('http://localhost:5001/summarize', {

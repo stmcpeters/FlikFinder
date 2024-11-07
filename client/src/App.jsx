@@ -7,6 +7,7 @@ import Home from './pages/Home.jsx'
 import Auth from './pages/Auth.jsx'
 import NoPage from './pages/NoPage.jsx';
 import About from './pages/About.jsx'
+import MovieReview from './components/MovieReview.jsx';
 
 function App() {
   // initializes and updates logged in state
@@ -174,6 +175,7 @@ const fetchRecommendation = async (genre) => {
         <Routes>
           <Route index element={<Home movies={movies} reviews={reviews} getSelectedGenre={getSelectedGenre} selectedGenre={selectedGenre} fetchRecommendation={fetchRecommendation} />} />
           <Route path="/home" element={<Home movies={movies} reviews={reviews} getSelectedGenre={getSelectedGenre} selectedGenre={selectedGenre} fetchRecommendation={fetchRecommendation} />} />
+          <Route path="/reviews" element={<MovieReview reviews={reviews} />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NoPage />} />
 

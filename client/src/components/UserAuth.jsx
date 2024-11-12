@@ -4,12 +4,6 @@ import Button from 'react-bootstrap/Button';
 
 export default function UserAuth({ user, onSaveUser, handleLogin }) {
 
-// login() => will handle fetching user data from DB and set user state as logged in
-// register() => will handle creating new user in DB and set user state as logged in
-
-// console.log("UserAuth props:", { user, onSaveUser, handleLogin });
-
-
   // setting initial state of login data and state to update inputs
   const [loginData, setLoginData] = useState({
     username: '',
@@ -21,46 +15,56 @@ export default function UserAuth({ user, onSaveUser, handleLogin }) {
     password: ''
   })
 
-  // handles the user typing into login fields
+  // handles user typing into input fields
   const handleLoginChange = (event) => {
-    setLoginData({...loginData, [event.target.name]: event.target.value});
-  }
-  // handles the user typing into registration fields
+    setLoginData(prev => ({ ...prev, [event.target.name]: event.target.value }));
+  };
+
   const handleRegisterChange = (event) => {
-    setRegisterData({...registerData, [event.target.name]: event.target.value});
-  }
+    setRegisterData(prev => ({ ...prev, [event.target.name]: event.target.value }));
+  };
 
   // function to handle post request to create new user
-  const postUser = (newUser) => {
-    return fetch("http://localhost:5001/db/users", {
+  const postUser = async (newUser) => {
+    try{
+      const response = await fetch("http://localhost:5001/db/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newUser),
-    })
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            //I'm sending data to the parent for updating the list
-            onSaveUser(data);
-        });
+      });
+      const data = await response.json();
+      onSaveUser(data);
+      handleLogin();
+    } catch (error) {
+      console.error('Error creating new user:', error);
+      alert('Could not create new user, please try again');
+    }
   };
 
   // handles login submission
   // prevents form from being submitted without validating inputs first
   const handleLoginSubmit = (event) => {
     event.preventDefault();
-    if(user) {
-      postUser(user);
+    if (loginData.username && loginData.password) {
+      // check if the username and password match existing user data
+      const userFound = user.find(u => u.username === loginData.username && u.password === loginData.password);
+      if (userFound) {
+        // handleLogin is called => setting logged in to true
+        handleLogin();
+      } else {
+        alert('Invalid username or password');
+      }
+    } else {
+      alert('Please fill out both fields');
     }
-    // handleLogin is called => setting logged in to true
-    handleLogin();
-  }
+  };
   // handles registration submission
   // prevents form from being submitted without validating inputs first
   const handleRegisterSubmit = (event) => {
     event.preventDefault();
-  }
+    // creates new user using registerData
+    postUser(registerData);
+  };
 
   return (
     <div> 
@@ -69,11 +73,11 @@ export default function UserAuth({ user, onSaveUser, handleLogin }) {
         <div className='auth-card'>
           <div className='auth-form'>
             <h2>Sign In</h2>
-              <Form onSubmit={handleLoginSubmit} method="POST">
+              <Form onSubmit={handleLoginSubmit}>
                 <Form.Group>
                   <Form.Label htmlFor="username">Username</Form.Label>
                     <Form.Control 
-                      type="username" 
+                      type="text" 
                       name="username" 
                       required
                       value={loginData.username}
@@ -134,5 +138,4 @@ export default function UserAuth({ user, onSaveUser, handleLogin }) {
         </div>
     </div>
   </div>
-  )
-}
+  )}

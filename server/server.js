@@ -52,8 +52,8 @@ app.post('/db/users', async (req, res) => {
   const { username, password } = req.body;
   try {
     const result = await db.query(`INSERT INTO users (username, password) VALUES ($1, $2)`, [username, password]);
-    // res.send(result);
-    res.send(`New user: ${username} has been added to the database`);
+    const newUser = result.rows[0]
+    res.json(newUser);
   } catch (error) {
     console.error('Error creating new user: ', error);
   }

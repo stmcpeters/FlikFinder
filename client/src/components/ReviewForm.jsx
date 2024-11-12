@@ -5,13 +5,9 @@ import Card from 'react-bootstrap/Card';
 // helps to access the parameters of the current route to manage the dynamic routes in the URL
 import { useParams } from 'react-router-dom';
 
-// NOTES: Error creating new review:  error: null value in column "user_id" of relation "reviews" violates not-null constraint
-// trying to have user ID and movie ID populate given whos signed in and what movie is currently displaying
-
 export default function ReviewForm ({ reviews, onSaveReview }) {
-  // handles review form
-  // initializes existing reviews in reviews table
-  const [existingReviews, setExisitingReviews] = useState([])
+  // const [exisitingReviews, setExisitingReviews] = useState([]);
+
   // initial values of form to be updated
   const [valuesForm, setValuesForm] = useState({
     username: "",
@@ -28,51 +24,55 @@ export default function ReviewForm ({ reviews, onSaveReview }) {
 
   const params = useParams();
 
-  // fetches exisiting reviews for movie ID the user is viewing
+  // populate review form with current logged in user ID and movie ID
   useEffect(() => {
-    const fetchReviews = async () => {
-      try{
-        const response = await fetch(`/db/reviews/${params.id}`);
+    // fetch current user ID
+    const fetchCurrentUserId = async () => {
+      try {
+        const response = await fetch('/db/users');
         const data = await response.json();
-        setExisitingReviews(data);
+        setValuesForm((prev) => ({ ...prev, username: data[0]?.username || '' }));
       } catch (error) {
-        console.error('Error fetching reviews: ', error);
+        console.error('Error fetching current user ID:', error);
       }
-    }
-    fetchReviews();
+    };
+
+    // fetch movie ID from URL parameters
+    const fetchMovieId = () => params.id;
+
+    Promise.all([fetchCurrentUserId(), fetchMovieId()]).then(([_, movieId]) => {
+      setValuesForm((prev) => ({ ...prev, movie_title: movieId }));
+    });
   }, [params.id]);
 
+  // fetches exisiting reviews for movie ID the user is viewing - WIP
+  // useEffect(() => {
+  //   const fetchReviews = async () => {
+  //     try{
+  //       const response = await fetch(`/db/reviews/${params.id}`);
+  //       const data = await response.json();
+  //       setExisitingReviews(data);
+  //     } catch (error) {
+  //       console.error('Error fetching reviews: ', error);
+  //     }
+  //   }
+  //   fetchReviews();
+  // }, [params.id]);
+
     // functions that handle user typing into fields
-  const handleUsernameInputChange = (event) => {
-    const username = event.target.value;
-    setValuesForm((valuesForm) => ({ ...valuesForm, username}));
-    if(username === "") {
-      setError((error) => ({ ...error, errorUsername: true}));
-    } else {
-      setError((error) => ({ ...error, errorUsername: false}));
-    }
-  }
+    const handleUsernameInputChange = (event) => {
+      setValuesForm((prev) => ({ ...prev, username: event.target.value }));
+    };
+  
+    const handleMovieTitleInputChange = (event) => {
+      setValuesForm((prev) => ({ ...prev, movie_title: event.target.value }));
+    };
+  
+    const handleBodyInputChange = (event) => {
+      setValuesForm((prev) => ({ ...prev, review_body: event.target.value }));
+    };
 
-  const handleMovieTitleInputChange = (event) => {
-    const movie_title = event.target.value;
-    setValuesForm((valuesForm) => ({ ...valuesForm, movie_title }));
-    if(movie_title === "") {
-      setError((error) => ({ ...error, errorMovieTitle: true }));
-    } else {
-      setError((error) => ({ ...error, errorMovieTitle: false }));
-    }
-  }
-
-  const handleBodyInputChange = (event) => {
-    const review_body = event.target.value;
-    setValuesForm((valuesForm) => ({ ...valuesForm, review_body }));
-    if(review_body === "") {
-      setError((error) => ({ ...error, errorReviewBody: true }));
-    } else {
-      setError((error) => ({ ...error, errorReviewBody: false }));
-    }
-  }
-
+  // making sure all form fields have values
   const validateForm = () => {
     return Object.values(valuesForm).every(value => value.trim() !== '');
   };
@@ -91,7 +91,7 @@ export default function ReviewForm ({ reviews, onSaveReview }) {
     };
 
     try {
-      const response = await fetch("http://localhost:5001/db/reviews", {
+      const response = await fetch("/db/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newReview),

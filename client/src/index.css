@@ -130,7 +130,6 @@ h2 {
 /* applies background color to movie recommendation component for visibility */
 .movie-rec {
   background-color: white;
-  border: 1px solid black;
   padding: 10px;
 }
 
@@ -208,8 +207,13 @@ button:hover {
   color: black;
 }
 
-.main-title{
+.main-title {
   margin-top: 10px;
   display: flex;;
+  justify-content: center;
+}
+
+h6 {
+  display: flex;
   justify-content: center;
 }

@@ -47,7 +47,7 @@ export default function MovieRec({ movies, selectedGenre, fetchRecommendation })
 
   // will display this message if a user has not selected a genre yet
   if (!selectedGenre) {
-    return <p>Please select a genre to see recommendations.</p>;
+    return <h6>Please select a genre to see recommendations.</h6>;
   }
 
   // async function to send the movie overview to an API for summarization

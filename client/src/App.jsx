@@ -11,7 +11,7 @@ import MovieReview from './components/MovieReview.jsx';
 
 function App() {
   // initializes and updates logged in state
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   // initialize and update users state
   const [user, setUser] = useState([]);
   // initialize and update genres state
@@ -22,7 +22,7 @@ function App() {
   const [recentReviews, setRecentReviews] = useState([]);
   // initializes state for movies fetched from API
   const [movies, setMovies] = useState([]);
-
+  // initializes user's selected genre
   const [selectedGenre, setSelectedGenre] = useState('');
 
 
@@ -49,13 +49,8 @@ function App() {
   // fetches users from database on page render
   useEffect(() => {
     loadUsers();
-  }, [user]);
-
-  // sets new user on save
-  const onSaveUser = (newUser) => {
-    setUser((user) => [...user, newUser]);
-  }
-
+    // changes dependency so function is only ran once on mount
+  }, []);
 
   // fetches genres from database
   const loadGenres = async () => {
@@ -180,7 +175,12 @@ const fetchRecommendation = async (genre) => {
           <Route path="*" element={<NoPage />} />
 
           {/* path to user auth from user profile in navbar */}
-          <Route path='/user' element={<Auth user={user} onLogin={handleLogin} onSaveUser={onSaveUser} />} />
+          <Route path='/user' element={<Auth user={user} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
+
+          {/* conditionally shows home page after user signs in */}
+          {/* {isLoggedIn && (
+            <Route path="/home" element={<Home movies={movies} />} />
+          )} */}
         </Routes>
       </BrowserRouter>
     </div>

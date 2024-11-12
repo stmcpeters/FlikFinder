@@ -115,10 +115,16 @@ app.get('/db/recents', async (req, res) => {
 app.post('/db/reviews', async (req, res) => {
   try {
     const { user_id, movie_id, review_body } = req.body;
-    const result = await db.query(`INSERT INTO reviews (user_id, movie_id, review_body) VALUES ($1, $2, $3)`, [user_id, movie_id, review_body]);
-    res.send(`New review by user: ${user_id} has been added to the database`);
+      // make sure all fields have data and send error if not
+      if (!user_id || !movie_id || !review_body) {
+        return res.status(400).send('Missing required fields');
+      }
+    const result = await db.query(`INSERT INTO reviews (user_id, movie_id, review_body) VALUES ($1, $2, $3) RETURNING *`, [user_id, movie_id, review_body]);
+    // send back the newly created review
+    res.json(result.rows[0]);
   } catch (error) {
     console.error('Error creating new review: ', error);
+    res.status(500).send('Server error');
   }
 })
 

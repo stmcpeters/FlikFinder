@@ -9,15 +9,15 @@ export default function NavBar() {
     <>
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#">FlixFinder</Navbar.Brand>
+          <Navbar.Brand href="#">FlixFinder 🍿</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Home</Nav.Link>
-            {/* <Nav.Link as={Link} to="/home">Features</Nav.Link> */}
-            <Nav.Link href="/user">User Profile</Nav.Link>
+            <Nav.Link as={Link} to="/reviews">Reviews</Nav.Link>
+            <Nav.Link as={Link} to="/about">About</Nav.Link>
           </Nav>
           <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-            Signed in as: <a href="#login">Guest</a>
+            <a href="/user">Sign Up/Login</a>
           </Navbar.Text>
         </Navbar.Collapse>
         </Container>

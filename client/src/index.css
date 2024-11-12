@@ -132,6 +132,11 @@ h2 {
   padding: 10px;
 }
 
+.about {
+  margin: 10px;
+  padding: 10px;
+}
+
 /* applies background color to movie review component for visibility */
 .movie-review {
   background-color: white;

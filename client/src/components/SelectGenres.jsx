@@ -71,7 +71,7 @@ const handleGenerateMovie = () => {
   return (
     <>
       <div className="select-genre">
-        <h2>What kind of mood are you in?</h2>
+        <h2 className='main-title'>What kind of mood are you in?</h2>
           <br />
         {/* populates options with genres from DB */}
         {/* displays options and handle changes */}

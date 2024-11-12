@@ -75,15 +75,17 @@ const handleGenerateMovie = () => {
           <br />
         {/* populates options with genres from DB */}
         {/* displays options and handle changes */}
-        <Select 
-          className="selection" 
-          options={availableGenres} 
-          id="genres" 
-          onChange={handleSelection} 
-          value={selectedOption} />
+        <div className='selection-button'>
+          <Select 
+            className="selection" 
+            options={availableGenres} 
+            id="genres" 
+            onChange={handleSelection} 
+            value={selectedOption} />
 
-        {/* button will save selected genres and fetch movies matching those genres */}
-        <button type="button" onClick={handleGenerateMovie}>Generate Movie</button>
+          {/* button will save selected genres and fetch movies matching those genres */}
+          <button type="button" onClick={handleGenerateMovie}>Generate Movie</button>
+        </div>
       </div>
     </>
   )

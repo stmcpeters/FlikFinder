@@ -185,3 +185,23 @@ h2 {
 a {
   padding: 5px;
 }
+
+.selection-button {
+  display: flex;            
+  align-items: center;      
+  justify-content: space-around;
+  margin: 5px;
+}
+button {
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  background-color: #1a1a1a;
+  color: white;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  background-color: white;
+  color: black;
+}

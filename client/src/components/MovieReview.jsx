@@ -31,7 +31,7 @@ const renderCard = (card) => {
       <Card.Body>
         <Card.Title>Posted on: {card.created_at.split('T')[0]}</Card.Title>
           <Card.Text>{card.review_body}</Card.Text>
-        <Button variant="primary">Movie Details</Button>
+        {/* <Button variant="primary">Movie Details</Button> */}
       </Card.Body>
     </Card>
   )
